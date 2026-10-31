@@ -1,4 +1,4 @@
-import { compareOffers, comparisonCsv, formatCzk, FIELD_KEYS } from './engine.mjs';
+import { compareOffers, comparisonCsv, formatCzk, FIELD_KEYS, importReport } from './engine.mjs';
 import { demoOffers, requirement } from './fixtures.mjs';
 
 const $ = id => document.getElementById(id);
@@ -81,6 +81,17 @@ $('manual-button').addEventListener('click',()=>{const raw=$('quote-text').value
 $('ai-button').addEventListener('click',addWithAi);
 $('export-button').addEventListener('click',exportReport);
 $('export-csv-button').addEventListener('click',exportCsv);
+$('import-button').addEventListener('click',()=>$('import-file').click());
+$('import-file').addEventListener('change',async event=>{
+  const file=event.target.files?.[0];if(!file)return;
+  try{
+    if(file.size>1_000_000)throw new Error('Soubor je příliš velký (limit 1 MB).');
+    const offers=importReport(await file.text(),requirement);
+    state.offers=offers;state.view='offers';location.hash='offers';render();
+    toast(`Načteno ${offers.length} nabídek. Před rozhodnutím znovu ověřte jejich údaje.`);
+  }catch(error){toast(`Načtení se nepodařilo: ${error.message}`);}
+  event.target.value='';
+});
 $('reset-button').addEventListener('click',()=>{state.offers=clone(demoOffers);state.view='overview';location.hash='overview';render();toast('Připravené fiktivní nabídky byly obnoveny.');});
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>$(b.dataset.close).close()));
 fetch('/api/health').then(r=>r.json()).then(x=>{state.aiConfigured=x.aiConfigured;$('quota-note').textContent=`Zbývá ${x.remainingAiCalls} AI volání v aktuálním denním okně.`;if(!x.aiConfigured)$('ai-button').title='Na místním serveru není nastaven API klíč.'}).catch(()=>{});

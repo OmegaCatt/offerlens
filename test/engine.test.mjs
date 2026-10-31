@@ -1,7 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import { compareOffers, comparisonCsv, evaluateOffer, parseHalers, validateAiPayload } from '../web/engine.mjs';
+import { compareOffers, comparisonCsv, evaluateOffer, importReport, parseHalers, validateAiPayload } from '../web/engine.mjs';
+
+test('imported comparison discards forged recommendation and requires renewed review',()=>{
+  const report={version:1,requirements:requirement,recommendedId:'forged',offers:[{...demoOffers[0],reviewed:true,totalHalers:1,status:'eligible',productMatch:true}]};
+  const offers=importReport(JSON.stringify(report),requirement);
+  assert.equal(importReport(JSON.stringify({...report,requirements:Object.fromEntries(Object.entries(requirement).reverse())}),requirement).length,1);
+  assert.equal(offers[0].reviewed,false);
+  assert.equal(offers[0].productMatch,null);
+  assert.equal(compareOffers(offers,requirement).recommendedId,null);
+  assert.throws(()=>importReport(JSON.stringify({...report,requirements:{...requirement,quantity:1}}),requirement),/jinou poptávku/);
+  assert.throws(()=>importReport(JSON.stringify({...report,offers:[{...demoOffers[0],raw:'x'.repeat(8001)}]}),requirement),/Neplatná nabídka/);
+});
 import { demoOffers, requirement } from '../web/fixtures.mjs';
 import { extractWithAi, extractionSchema } from '../ai.mjs';
 import { createOfferServer } from '../server.mjs';

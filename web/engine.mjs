@@ -53,6 +53,34 @@ export function compareOffers(offers, requirements) {
   const eligible = evaluated.filter(x => x.status === 'eligible').sort((a,b) => a.totalHalers - b.totalHalers);
   return { offers: evaluated, recommendedId: eligible[0]?.id ?? null, eligibleCount: eligible.length, blockedCount: evaluated.filter(x => x.status === 'blocked').length, reviewCount: evaluated.filter(x => x.status === 'review').length };
 }
+
+export function importReport(text, requirements) {
+  if (typeof text !== 'string' || text.length > 1_000_000) throw new Error('JSON je příliš velký.');
+  let report;
+  try { report = JSON.parse(text); } catch { throw new Error('Neplatný soubor JSON.'); }
+  if (report?.version !== 1 || !Array.isArray(report.offers) || report.offers.length < 1 || report.offers.length > 30) throw new Error('Nepodporovaný formát nebo počet nabídek.');
+  if (!report.requirements || Object.keys(report.requirements).length !== Object.keys(requirements).length || !Object.keys(requirements).every(key => report.requirements[key] === requirements[key])) throw new Error('Soubor obsahuje jinou poptávku.');
+  return report.offers.map((offer, index) => {
+    if (!offer || typeof offer.raw !== 'string' || offer.raw.length > 8000 || !offer.fields || typeof offer.fields !== 'object') throw new Error(`Neplatná nabídka ${index + 1}.`);
+    const fields = {};
+    for (const key of FIELD_KEYS) {
+      const value = offer.fields[key];
+      if (['quantity','vatRate','leadDays','warrantyMonths'].includes(key)) {
+        if (value !== null && value !== undefined && (!integer(value, 0, 100000))) throw new Error(`Neplatné pole ${key}.`);
+        fields[key] = value ?? null;
+      } else {
+        if (value !== null && value !== undefined && (typeof value !== 'string' || value.length > 300)) throw new Error(`Neplatné pole ${key}.`);
+        fields[key] = value ?? null;
+      }
+    }
+    const evidence = {};
+    if (offer.evidence && typeof offer.evidence === 'object') for (const key of FIELD_KEYS) {
+      const quote = offer.evidence[key];
+      if (typeof quote === 'string' && quote.length <= 200 && offer.raw.includes(quote)) evidence[key] = quote;
+    }
+    return { id: `import-${index}-${globalThis.crypto?.randomUUID?.() ?? index}`, origin: 'imported', name: fields.supplier || 'Neznámý dodavatel', raw: offer.raw, fields, evidence, reviewed: false, productMatch: null };
+  });
+}
 const csvCell = value => {
   let text = String(value ?? '');
   // Spreadsheet programs may evaluate imported cells as formulas.

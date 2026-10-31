@@ -16,7 +16,7 @@ Projekt ukazuje běžný nákupní problém: nejlevnější nabídka nemusí spl
 - Počítá ceny v celých haléřích včetně známé dopravy a DPH. Neznámé položky neodhaduje.
 - Umožní vložit text nabídky a předvyplnit údaje pomocí OpenAI Responses API se strukturovaným výstupem.
 - Ke každému AI údaji vyžaduje doslovný úryvek původního textu. Úryvek **není důkaz správnosti hodnoty**; uživatel ji musí ověřit a výslovně potvrdit shodu produktu.
-- Umožní opravit všechna pole, resetovat ukázku a stáhnout porovnání jako JSON nebo CSV.
+- Umožní opravit všechna pole, resetovat ukázku, stáhnout porovnání jako JSON nebo CSV a znovu načíst exportované JSON pro stejnou poptávku. Načtené nabídky vyžadují nové lidské potvrzení.
 - Při CSV exportu neutralizuje text, který by tabulkový procesor mohl vyhodnotit jako vzorec.
 
 ### Spuštění
@@ -41,9 +41,9 @@ Klíč čte pouze místní `server.mjs`. Server naslouchá na `127.0.0.1`, nepod
 
 ### Ověření a hranice
 
-Deset automatizovaných testů ověřuje výpočet, nejisté ceny, kontrolu AI výstupu, bezpečný CSV export, serverové limity a závod souběžných požadavků. Ručně jsem prošel přidání a opravu nabídky, potvrzení údajů, exporty a desktopové i mobilní rozložení. Podrobnosti jsou v [docs/QA.md](docs/QA.md).
+Jedenáct automatizovaných testů ověřuje výpočet, nejisté ceny, kontrolu AI výstupu, bezpečný CSV export, serverové limity a závod souběžných požadavků. Ručně jsem prošel přidání a opravu nabídky, potvrzení údajů, exporty a desktopové i mobilní rozložení. Podrobnosti jsou v [docs/QA.md](docs/QA.md).
 
-První verze pracuje s jednou produktovou položkou v CZK a s vloženým textem. Nečte PDF/OCR, nemá účty ani databázi. Nabídky přidané během relace se drží pouze v paměti prohlížeče; lze je vyexportovat, ale JSON se zatím zpět neimportuje.
+První verze pracuje s jednou produktovou položkou v CZK a s vloženým textem. Nečte PDF/OCR, nemá účty ani databázi. Nabídky přidané během relace se drží pouze v paměti prohlížeče; exportované JSON lze znovu načíst pro stejnou poptávku (max. 1 MB a 30 nabídek).
 
 ### Technologie
 
@@ -61,7 +61,7 @@ The app demonstrates a common purchasing decision: the lowest quoted price may f
 - Calculates prices in integer halers, including known shipping and VAT. Unknown costs stay unknown.
 - Extracts fields from pasted quote text with the OpenAI Responses API and structured output.
 - Requires a verbatim source excerpt for each AI-extracted field. An excerpt **does not prove the value is correct**; the user must verify it and explicitly confirm the product match.
-- Lets the user correct every field, reset the sample, and export the comparison as JSON or CSV. CSV export neutralizes text that a spreadsheet might interpret as a formula.
+- Lets the user correct every field, reset the sample, export as JSON or CSV, and re-import exported JSON for the same request. Imported quotes require fresh review. CSV export neutralizes text that a spreadsheet might interpret as a formula.
 
 ### Run locally
 
@@ -85,9 +85,9 @@ Only the local `server.mjs` reads the API key. It listens on `127.0.0.1`, serves
 
 ### Verification and scope
 
-Ten automated tests cover pricing, unknown costs, AI output checks, CSV formula protection, server limits, and concurrent requests. Adding and editing quotes, confirmation, exports, and desktop and mobile layouts were also checked manually. See [QA evidence](docs/QA.md).
+Eleven automated tests cover pricing, unknown costs, AI output checks, CSV formula protection, server limits, and concurrent requests. Adding and editing quotes, confirmation, exports, and desktop and mobile layouts were also checked manually. See [QA evidence](docs/QA.md).
 
-This first version handles one product line in CZK and pasted text. It does not read PDF/OCR, provide accounts, or use a database. Quotes added during a session remain in browser memory; they can be exported, but JSON import is not available yet.
+This first version handles one product line in CZK and pasted text. It does not read PDF/OCR, provide accounts, or use a database. Quotes added during a session remain in browser memory; exported JSON can be re-imported for the same request (up to 1 MB and 30 quotes).
 
 ### Stack
 
