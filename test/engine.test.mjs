@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import { compareOffers, comparisonCsv, evaluateOffer, importReport, parseHalers, validateAiPayload } from '../web/engine.mjs';
+import { compareOffers, comparisonCsv, decisionBrief, evaluateOffer, importReport, parseHalers, validateAiPayload } from '../web/engine.mjs';
 
 test('imported comparison discards forged recommendation and requires renewed review',()=>{
   const report={version:1,requirements:requirement,recommendedId:'forged',offers:[{...demoOffers[0],reviewed:true,totalHalers:1,status:'eligible',productMatch:true}]};
@@ -14,6 +14,17 @@ test('imported comparison discards forged recommendation and requires renewed re
   assert.throws(()=>importReport(JSON.stringify({...report,offers:[{...demoOffers[0],raw:'x'.repeat(8001)}]}),requirement),/Neplatná nabídka/);
 });
 import { demoOffers, requirement } from '../web/fixtures.mjs';
+
+test('decision brief states the calculated recommendation and unresolved conditions', () => {
+  const comparison = compareOffers(demoOffers, requirement);
+  const brief = decisionBrief(comparison);
+  assert.match(brief, /Aurora Office/);
+  assert.match(brief, /84\s?445,90 Kč/);
+  assert.match(brief, /Nova Display/);
+  assert.match(brief, /Pixel Trade/);
+  assert.match(decisionBrief({ offers: [], recommendedId: null }), /nelze doporučit/);
+  assert.match(decisionBrief({ offers: [{ id: 'x', name: '*Nový|dodavatel*', totalHalers: null, status: 'review', issues: [], unknown: [] }], recommendedId: null }), /\\\*Nový dodavatel\\\*/);
+});
 import { extractWithAi, extractionSchema } from '../ai.mjs';
 import { createOfferServer } from '../server.mjs';
 

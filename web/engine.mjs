@@ -54,6 +54,18 @@ export function compareOffers(offers, requirements) {
   return { offers: evaluated, recommendedId: eligible[0]?.id ?? null, eligibleCount: eligible.length, blockedCount: evaluated.filter(x => x.status === 'blocked').length, reviewCount: evaluated.filter(x => x.status === 'review').length };
 }
 
+export function decisionBrief(comparison) {
+  const plain = value => String(value ?? '').replace(/[\r\n|]+/g, ' ').trim().replaceAll('\\', '\\\\').replaceAll('*', '\\*').replaceAll('_', '\\_').replaceAll('`', '\\`');
+  const recommended = comparison.offers.find(offer => offer.id === comparison.recommendedId);
+  const lines = ['# OfferLens – podklad k rozhodnutí', '', recommended
+    ? `Doporučení podle zadaných pravidel: **${plain(recommended.name)}**, ${formatCzk(recommended.totalHalers)}.`
+    : 'Zatím nelze doporučit nabídku, která má potvrzené všechny podmínky.', '',
+    '| Dodavatel | Celkem vč. DPH | Stav | Co ověřit |', '|---|---:|---|---|'];
+  for (const offer of comparison.offers) lines.push(`| ${plain(offer.name)} | ${plain(formatCzk(offer.totalHalers))} | ${plain(offer.status)} | ${plain([...offer.issues, ...offer.unknown].join('; ') || 'Bez otevřených bodů')} |`);
+  lines.push('', 'Výpočet cen probíhá v haléřích. Neznámé údaje se nedopočítávají. Před nákupem ověřte původní nabídky a jejich aktuální platnost.', '');
+  return lines.join('\n');
+}
+
 export function importReport(text, requirements) {
   if (typeof text !== 'string' || text.length > 1_000_000) throw new Error('JSON je příliš velký.');
   let report;

@@ -4,7 +4,9 @@ Aktualizováno 31. 10. 2026. Testováno místně na Windows, Node.js 24.
 
 ## Automatizované kontroly
 
-`npm test`: 11/11 testů prošlo. Pokrývají parsování peněz, výběr vyhovující nabídky, neznámou dopravu a DPH, CSV vzorce, nutnost lidského potvrzení, odmítnutí AI polí bez doslovného úryvku, parametry OpenAI požadavku, ochranu HTTP endpointu, denní limit AI volání a rezervaci slotu před asynchronním čtením těla požadavku.
+`npm test`: 12/12 testů prošlo. Pokrývají parsování peněz, výběr vyhovující nabídky, neznámou dopravu a DPH, Markdown podklad k rozhodnutí, CSV vzorce, nutnost lidského potvrzení, odmítnutí AI polí bez doslovného úryvku, parametry OpenAI požadavku, ochranu HTTP endpointu, denní limit AI volání a rezervaci slotu před asynchronním čtením těla požadavku.
+
+Po doplnění technického přehledu prohlížeč otevřel panel, stáhl Markdown se správným doporučením a ověřil mobilní šířku 390 px bez vodorovného přetečení. Připravený scénář nevolal placené API.
 
 `node --check server.mjs` a `node --check web/app.mjs` prošly.
 

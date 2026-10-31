@@ -1,4 +1,4 @@
-import { compareOffers, comparisonCsv, formatCzk, FIELD_KEYS, importReport } from './engine.mjs';
+import { compareOffers, comparisonCsv, decisionBrief, formatCzk, FIELD_KEYS, importReport } from './engine.mjs';
 import { demoOffers, requirement } from './fixtures.mjs';
 
 const $ = id => document.getElementById(id);
@@ -74,6 +74,7 @@ function newOffer(raw, extraction, origin) { const id=crypto.randomUUID();const 
 function download(name,body,type){const url=URL.createObjectURL(new Blob([body],{type}));const a=child('a',{href:url,download:name});document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);}
 function exportReport(){const a=analysis();const report={version:1,requirements:requirement,recommendedId:a.recommendedId,offers:a.offers.map(({id,name,origin,raw,fields,evidence,productMatch,reviewed,totalHalers,status,issues,unknown})=>({id,name,origin,raw,fields,evidence,productMatch,reviewed,totalHalers,status,issues,unknown}))};download('offerlens_srovnani.json',JSON.stringify(report,null,2),'application/json;charset=utf-8');toast('Výsledek byl exportován do JSON.');}
 function exportCsv(){download('offerlens_srovnani.csv',comparisonCsv(analysis()),'text/csv;charset=utf-8');toast('Výsledek byl exportován do CSV.');}
+function exportBrief(){download('offerlens_podklad_k_rozhodnuti.md',decisionBrief(analysis()),'text/markdown;charset=utf-8');toast('Shrnutí rozhodnutí bylo připraveno ke stažení.');}
 async function addWithAi(){const raw=$('quote-text').value.trim(),err=$('add-error');err.textContent='';if(raw.length<30||raw.length>8000){err.textContent='Text musí mít 30 až 8 000 znaků.';return}if(state.busy)return;state.busy=true;$('ai-button').disabled=true;$('ai-button').textContent='AI čte nabídku…';try{const res=await fetch('/api/extract',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text:raw})});const data=await res.json();if(!res.ok)throw new Error(data.error||'Extrakce selhala.');$('quota-note').textContent=`Zbývá ${data.remainingAiCalls} AI volání v aktuálním denním okně.`;newOffer(raw,data,'ai');toast(data.unsupported?.length?`AI vynechala ${data.unsupported.length} polí bez doloženého úryvku.`:'AI vyplnila údaje. Před porovnáním je ověřte.');}catch(error){err.textContent=error.message||'AI extrakce selhala.'}finally{state.busy=false;$('ai-button').disabled=false;$('ai-button').textContent='Vytěžit údaje pomocí AI ✦';}}
 window.addEventListener('hashchange',selectView);
 $('add-button').addEventListener('click',()=>{$('add-error').textContent='';$('add-dialog').showModal();});
@@ -81,6 +82,7 @@ $('manual-button').addEventListener('click',()=>{const raw=$('quote-text').value
 $('ai-button').addEventListener('click',addWithAi);
 $('export-button').addEventListener('click',exportReport);
 $('export-csv-button').addEventListener('click',exportCsv);
+$('export-brief-button').addEventListener('click',exportBrief);
 $('import-button').addEventListener('click',()=>$('import-file').click());
 $('import-file').addEventListener('change',async event=>{
   const file=event.target.files?.[0];if(!file)return;

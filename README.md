@@ -16,7 +16,8 @@ Projekt ukazuje běžný nákupní problém: nejlevnější nabídka nemusí spl
 - Počítá ceny v celých haléřích včetně známé dopravy a DPH. Neznámé položky neodhaduje.
 - Umožní vložit text nabídky a předvyplnit údaje pomocí OpenAI Responses API se strukturovaným výstupem.
 - Ke každému AI údaji vyžaduje doslovný úryvek původního textu. Úryvek **není důkaz správnosti hodnoty**; uživatel ji musí ověřit a výslovně potvrdit shodu produktu.
-- Umožní opravit všechna pole, resetovat ukázku, stáhnout porovnání jako JSON nebo CSV a znovu načíst exportované JSON pro stejnou poptávku. Načtené nabídky vyžadují nové lidské potvrzení.
+- Umožní opravit všechna pole, resetovat ukázku, stáhnout porovnání jako JSON nebo CSV i krátký podklad k rozhodnutí v Markdownu a znovu načíst exportované JSON pro stejnou poptávku. Načtené nabídky vyžadují nové lidské potvrzení.
+- Rozklikávací panel přímo v aplikaci popisuje použití OpenAI API, oddělený pravidlový výpočet a kontrolu člověkem.
 - Při CSV exportu neutralizuje text, který by tabulkový procesor mohl vyhodnotit jako vzorec.
 
 ### Spuštění
@@ -61,7 +62,8 @@ The app demonstrates a common purchasing decision: the lowest quoted price may f
 - Calculates prices in integer halers, including known shipping and VAT. Unknown costs stay unknown.
 - Extracts fields from pasted quote text with the OpenAI Responses API and structured output.
 - Requires a verbatim source excerpt for each AI-extracted field. An excerpt **does not prove the value is correct**; the user must verify it and explicitly confirm the product match.
-- Lets the user correct every field, reset the sample, export as JSON or CSV, and re-import exported JSON for the same request. Imported quotes require fresh review. CSV export neutralizes text that a spreadsheet might interpret as a formula.
+- Lets the user correct every field, reset the sample, export as JSON, CSV or a short Markdown decision brief, and re-import exported JSON for the same request. Imported quotes require fresh review. CSV export neutralizes text that a spreadsheet might interpret as a formula.
+- An expandable in-app note explains the API, deterministic calculations, and human review.
 
 ### Run locally
 
@@ -85,7 +87,7 @@ Only the local `server.mjs` reads the API key. It listens on `127.0.0.1`, serves
 
 ### Verification and scope
 
-Eleven automated tests cover pricing, unknown costs, AI output checks, CSV formula protection, server limits, and concurrent requests. Adding and editing quotes, confirmation, exports, and desktop and mobile layouts were also checked manually. See [QA evidence](docs/QA.md).
+Twelve automated tests cover pricing, unknown costs, the decision brief, AI output checks, CSV formula protection, server limits, and concurrent requests. Exports and desktop and mobile layouts were checked in a browser. See [QA evidence](docs/QA.md).
 
 This first version handles one product line in CZK and pasted text. It does not read PDF/OCR, provide accounts, or use a database. Quotes added during a session remain in browser memory; exported JSON can be re-imported for the same request (up to 1 MB and 30 quotes).
 
