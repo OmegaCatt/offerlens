@@ -20,6 +20,18 @@ Projekt ukazuje běžný nákupní problém: nejlevnější nabídka nemusí spl
 - Rozklikávací panel přímo v aplikaci popisuje použití OpenAI API, oddělený pravidlový výpočet a kontrolu člověkem.
 - Při CSV exportu neutralizuje text, který by tabulkový procesor mohl vyhodnotit jako vzorec.
 
+### Použití krok za krokem
+
+Otevřete připravené fiktivní porovnání a projděte, proč nabídka vyhovuje či nevyhovuje. Novou nabídku lze vložit jako text: s místním API klíčem AI navrhne pole a doslovné úryvky, bez klíče lze údaje doplnit ručně. Před zařazením nabídky je potřeba zkontrolovat hodnoty i shodu produktu. Nakonec lze stáhnout výpočet a krátký podklad k rozhodnutí; JSON lze znovu načíst pro stejnou poptávku. Požadavky poptávky jsou v této ukázce pevně nastavené.
+
+### Použité technologie a možné rozšíření
+
+Hotová verze používá **vanilla JavaScript, HTML/CSS, Node.js HTTP server, OpenAI Responses API se strukturovaným výstupem a `node:test`**. AI pouze čte vložený text; pravidla, ceny a pořadí vyhodnocuje samostatný kód. API klíč zůstává na místním serveru. Aplikace neotevírá URL a nestahuje obsah webu. PDF/OCR, více produktových položek, více měn, evidence schvalování a napojení na nákupní systém by byla další práce.
+
+### Možné zavedení ve firmě
+
+Pilot by mohl začít anonymizovanými nabídkami a společně odsouhlasenými kritérii porovnání. Je třeba prověřit, zda lze text nabídek předávat externímu AI poskytovateli, a ponechat schválení nákupčímu. Pro provoz více lidí by se muselo přidat přihlášení, sdílené ukládání, historie změn, stabilní limity nákladů a napojení na schválené zdroje nabídek. Místní demo tyto provozní vlastnosti nemá.
+
 ### Spuštění
 
 Vyžaduje Node.js 22 nebo novější. Projekt nemá balíčkové závislosti.
@@ -42,7 +54,7 @@ Klíč čte pouze místní `server.mjs`. Server naslouchá na `127.0.0.1`, nepod
 
 ### Ověření a hranice
 
-Jedenáct automatizovaných testů ověřuje výpočet, nejisté ceny, kontrolu AI výstupu, bezpečný CSV export, serverové limity a závod souběžných požadavků. Ručně jsem prošel přidání a opravu nabídky, potvrzení údajů, exporty a desktopové i mobilní rozložení. Podrobnosti jsou v [docs/QA.md](docs/QA.md).
+Dvanáct automatizovaných testů ověřuje výpočet, nejisté ceny, kontrolu AI výstupu, bezpečný CSV export, serverové limity a závod souběžných požadavků. Ručně jsem prošel přidání a opravu nabídky, potvrzení údajů, exporty a desktopové i mobilní rozložení. Podrobnosti jsou v [docs/QA.md](docs/QA.md).
 
 První verze pracuje s jednou produktovou položkou v CZK a s vloženým textem. Nečte PDF/OCR, nemá účty ani databázi. Nabídky přidané během relace se drží pouze v paměti prohlížeče; exportované JSON lze znovu načíst pro stejnou poptávku (max. 1 MB a 30 nabídek).
 
@@ -64,6 +76,14 @@ The app demonstrates a common purchasing decision: the lowest quoted price may f
 - Requires a verbatim source excerpt for each AI-extracted field. An excerpt **does not prove the value is correct**; the user must verify it and explicitly confirm the product match.
 - Lets the user correct every field, reset the sample, export as JSON, CSV or a short Markdown decision brief, and re-import exported JSON for the same request. Imported quotes require fresh review. CSV export neutralizes text that a spreadsheet might interpret as a formula.
 - An expandable in-app note explains the API, deterministic calculations, and human review.
+
+### Workflow, stack, and possible adoption
+
+Review the fictional comparison and inspect each result. Paste a new quote for AI-suggested fields and source excerpts when a local API key is configured, or enter the fields manually. Verify all fields and product match before accepting the comparison. Export the decision as JSON, CSV, or Markdown; JSON can be re-imported for the same request. The request requirements are fixed in this demo.
+
+The implemented stack is **vanilla JavaScript, HTML/CSS, a Node.js HTTP server, OpenAI Responses API structured output, and `node:test`**. AI extracts from pasted text; deterministic code calculates totals and checks requirements. The app does not open URLs or download web pages. PDF/OCR, multiple product lines or currencies, approvals, and procurement-system integration are future possibilities.
+
+A company pilot would first use anonymized quotes and agreed evaluation criteria, check whether quote text may be sent to an external AI provider, and retain human purchase approval. Multi-user deployment would require authentication, shared persistence, change history, durable cost limits, and an approved integration path. The local demo does not provide these controls.
 
 ### Run locally
 
