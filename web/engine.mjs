@@ -41,7 +41,7 @@ export function evaluateOffer(offer, requirements) {
   if (!integer(f.vatRate, 0, 30)) unknown.push('Sazba DPH není potvrzena');
   let totalHalers = null;
   if (unit !== null && shipping !== null && integer(f.quantity, 1, 100000) && integer(f.vatRate, 0, 30) && ['incl','excl'].includes(f.priceVat) && (shipping === 0 || ['incl','excl'].includes(f.shippingVat)) && f.currency === 'CZK') {
-    const withVat = (v, mode) => mode === 'incl' ? v : Math.round(v * (100 + f.vatRate) / 100);
+    const withVat = (v, mode) => mode === 'incl' ? v : Number((BigInt(v) * BigInt(100 + f.vatRate) + 50n) / 100n);
     totalHalers = withVat(unit * f.quantity, f.priceVat) + withVat(shipping, f.shippingVat);
     if (totalHalers > requirements.budgetHalers) issues.push(`Celkem ${formatCzk(totalHalers)} překračuje rozpočet ${formatCzk(requirements.budgetHalers)}`);
   }
@@ -70,7 +70,7 @@ export function importReport(text, requirements) {
   if (typeof text !== 'string' || text.length > 1_000_000) throw new Error('JSON je příliš velký.');
   let report;
   try { report = JSON.parse(text); } catch { throw new Error('Neplatný soubor JSON.'); }
-  if (report?.version !== 1 || !Array.isArray(report.offers) || report.offers.length < 1 || report.offers.length > 30) throw new Error('Nepodporovaný formát nebo počet nabídek.');
+  if (report?.version !== 1 || !Array.isArray(report.offers) || report.offers.length > 30) throw new Error('Nepodporovaný formát nebo počet nabídek.');
   if (!report.requirements || Object.keys(report.requirements).length !== Object.keys(requirements).length || !Object.keys(requirements).every(key => report.requirements[key] === requirements[key])) throw new Error('Soubor obsahuje jinou poptávku.');
   return report.offers.map((offer, index) => {
     if (!offer || typeof offer.raw !== 'string' || offer.raw.length > 8000 || !offer.fields || typeof offer.fields !== 'object') throw new Error(`Neplatná nabídka ${index + 1}.`);

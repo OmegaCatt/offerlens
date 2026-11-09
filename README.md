@@ -1,6 +1,22 @@
 # OfferLens
 
-## Aktualizace 9. 11. 2026: Vlastní poptávka a přenosný případ
+## Etapa 10. 11. 2026: více poptávek a místní historie
+
+Poptávky mají vlastní název, stabilní ID nabídek a číslované verze s důvodem uložení. Ukládají se **jen po stisknutí tlačítka do IndexedDB tohoto prohlížeče**. Nejvýše 20 poptávek, posledních 10 verzí každé a celkem 10 MB. Dvě karty nesmějí přepsat tutéž starší verzi; při konfliktu zůstane pracovní obsah zachovaný a lze jej uložit jako kopii.
+
+Historie ukazuje změny zadání, polí, původního textu, citací i lidské kontroly. Starší verze lze otevřít; následné uložení přidá novou verzi, nepřepisuje novější. Obnovené nabídky vždy vyžadují novou kontrolu a potvrzení shody produktu. **Kontrola údajů není schválení nákupu.** Místní historie není sdílený ani podepsaný audit a neověřuje identitu kontrolujícího.
+
+Nová poptávka smí být prázdná. Nabídku lze odebrat a její dříve uložený stav zůstane v historii. Výslovný limit 30 nabídek platí i při ručním/AI přidávání. Neuložené změny chrání potvrzení před nahrazením; opožděný import nebo extrakce nesmí přepsat novější případ. DPH používá přesný BigInt mezivýpočet i u vysokých podporovaných částek; výstup zůstává v bezpečných celých haléřích.
+
+![Historie konkrétních změn](docs/screenshots/history.png)
+
+Přenosný JSON nadále obsahuje **aktuální stav**, nikoli celou historii. Vymazání dat prohlížeče, jiný profil nebo jiný původ (adresa/port) může místní historii odstranit či znepřístupnit. Pracovní plochu proto samostatně zálohujte do JSON. Server historii ani nabídky neukládá.
+
+English: named local requests with the latest ten revisions, explicit save reasons, source-aware diffs and atomic optimistic concurrency in IndexedDB. Conflicting tabs cannot overwrite newer work. Reopened offers always lose review/product-match authority. Up to twenty requests and 10 MB total. Current-state JSON is not a full history archive. This is not authenticated procurement approval or a signed/shared audit trail. Exact integer VAT intermediates avoid a demonstrated high-value rounding error.
+
+Měření většího případu lze zopakovat přes `node scripts/benchmark-history.mjs`; popis sady a skutečné výsledky jsou v [QA](docs/QA.md). Nejde o měření AI latence ani výkonový příslib pro jiné zařízení.
+
+## První etapa 9. 11. 2026: Vlastní poptávka a přenosný případ
 
 Zadání produktu, množství, termínu, záruky a rozpočtu lze upravit. Změna produktu nebo množství zruší potvrzení shody nabídek. Celou poptávku lze uložit do JSON a znovu otevřít; obnovené nabídky vždy vyžadují nové ověření. Soubor se ukládá ručně do zařízení, ne do sdílené databáze. Stále jde o jednu položku v CZK bez PDF/OCR.
 
@@ -36,11 +52,11 @@ Hotová verze používá **vanilla JavaScript, HTML/CSS, Node.js HTTP server, Op
 
 ### Možné zavedení ve firmě
 
-Pilot by mohl začít anonymizovanými nabídkami a společně odsouhlasenými kritérii porovnání. Je třeba prověřit, zda lze text nabídek předávat externímu AI poskytovateli, a ponechat schválení nákupčímu. Pro provoz více lidí by se muselo přidat přihlášení, sdílené ukládání, historie změn, stabilní limity nákladů a napojení na schválené zdroje nabídek. Místní demo tyto provozní vlastnosti nemá.
+Pilot by mohl začít anonymizovanými nabídkami a společně odsouhlasenými kritérii porovnání. Je třeba prověřit, zda lze text nabídek předávat externímu AI poskytovateli, a ponechat schválení nákupčímu. Pro provoz více lidí by se muselo přidat přihlášení, sdílené ukládání, sdílená ověřená historie, stabilní limity nákladů a napojení na schválené zdroje nabídek. Místní demo tyto provozní vlastnosti nemá.
 
 ### Spuštění
 
-Vyžaduje Node.js 22 nebo novější. Projekt nemá balíčkové závislosti.
+Ověřeno na Node.js 24. Běh aplikace nepotřebuje instalaci balíčků; Playwright je vývojová závislost pro prohlížečové QA.
 
 ```bash
 npm start
@@ -60,13 +76,13 @@ Klíč čte pouze místní `server.mjs`. Server naslouchá na `127.0.0.1`, nepod
 
 ### Ověření a hranice
 
-Dvanáct automatizovaných testů ověřuje výpočet, nejisté ceny, kontrolu AI výstupu, bezpečný CSV export, serverové limity a závod souběžných požadavků. Ručně jsem prošel přidání a opravu nabídky, potvrzení údajů, exporty a desktopové i mobilní rozložení. Podrobnosti jsou v [docs/QA.md](docs/QA.md).
+Aktuálních 22 automatizovaných testů ověřuje výpočet, nejisté ceny, kontrolu AI výstupu, bezpečný CSV export, serverové limity a závod souběžných požadavků. Ručně jsem prošel přidání a opravu nabídky, potvrzení údajů, exporty a desktopové i mobilní rozložení. Podrobnosti jsou v [docs/QA.md](docs/QA.md).
 
-První verze pracuje s jednou produktovou položkou v CZK a s vloženým textem. Nečte PDF/OCR, nemá účty ani databázi. Nabídky přidané během relace se drží pouze v paměti prohlížeče; exportované JSON lze znovu načíst pro stejnou poptávku (max. 1 MB a 30 nabídek).
+První verze pracuje s jednou produktovou položkou v CZK a s vloženým textem. Nečte PDF/OCR, nemá účty ani sdílenou serverovou databázi. Pracovní nabídky jsou v paměti prohlížeče; výslovně uložené verze přetrvají v místní IndexedDB; exportované JSON lze znovu načíst pro stejnou poptávku (max. 1 MB a 30 nabídek).
 
 ### Technologie
 
-Vanilla JavaScript, Node.js HTTP server, OpenAI Responses API, HTML/CSS a vestavěný `node:test`. Bez frameworku a bez balíčkových závislostí.
+Vanilla JavaScript, Node.js HTTP server, OpenAI Responses API, HTML/CSS a vestavěný `node:test`. Bez frameworku a bez běhových balíčkových závislostí; Playwright je pouze pro vývojové QA.
 
 ## English
 
@@ -89,11 +105,11 @@ Review the fictional comparison and inspect each result. Paste a new quote for A
 
 The implemented stack is **vanilla JavaScript, HTML/CSS, a Node.js HTTP server, OpenAI Responses API structured output, and `node:test`**. AI extracts from pasted text; deterministic code calculates totals and checks requirements. The app does not open URLs or download web pages. PDF/OCR, multiple product lines or currencies, approvals, and procurement-system integration are future possibilities.
 
-A company pilot would first use anonymized quotes and agreed evaluation criteria, check whether quote text may be sent to an external AI provider, and retain human purchase approval. Multi-user deployment would require authentication, shared persistence, change history, durable cost limits, and an approved integration path. The local demo does not provide these controls.
+A company pilot would first use anonymized quotes and agreed evaluation criteria, check whether quote text may be sent to an external AI provider, and retain human purchase approval. Multi-user deployment would require authentication, shared persistence and verified audit history, durable cost limits, and an approved integration path. Browser-local revision history does not provide these shared production controls.
 
 ### Run locally
 
-Requires Node.js 22 or newer. There are no package dependencies.
+Requires Node.js 24. Running the app needs no package installation; Playwright is a development-only browser QA dependency.
 
 ```bash
 npm start
@@ -113,10 +129,10 @@ Only the local `server.mjs` reads the API key. It listens on `127.0.0.1`, serves
 
 ### Verification and scope
 
-Twelve automated tests cover pricing, unknown costs, the decision brief, AI output checks, CSV formula protection, server limits, and concurrent requests. Exports and desktop and mobile layouts were checked in a browser. See [QA evidence](docs/QA.md).
+Twenty-two automated tests cover pricing, unknown costs, exact VAT arithmetic, history snapshots and conflicts, revision limits, the decision brief, AI output checks, CSV formula protection, server limits, and concurrent requests. Browser QA also checks actual IndexedDB transactions, two tabs, exports and desktop/mobile layouts without live AI calls. See [QA evidence](docs/QA.md).
 
-This first version handles one product line in CZK and pasted text. It does not read PDF/OCR, provide accounts, or use a database. Quotes added during a session remain in browser memory; exported JSON can be re-imported for the same request (up to 1 MB and 30 quotes).
+The current version handles one product line in CZK and pasted text. It does not read PDF/OCR or provide user accounts or a shared server database. Working quotes remain in memory; explicitly saved cases persist in browser-local IndexedDB with bounded revision history. Current-state JSON can be re-imported (up to 1 MB and 30 quotes); it is not a full history archive.
 
 ### Stack
 
-Vanilla JavaScript, a Node.js HTTP server, OpenAI Responses API, HTML/CSS, and the built-in `node:test` runner. No framework or package dependencies.
+Vanilla JavaScript, IndexedDB, a Node.js HTTP server, OpenAI Responses API, HTML/CSS, and the built-in `node:test` runner. No framework or runtime package dependencies; Playwright is used only for browser QA.

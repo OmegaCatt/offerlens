@@ -1,0 +1,15 @@
+.case-toolbar{border:1px solid var(--line);border-radius:7px;background:var(--white);padding:16px 18px;display:flex;gap:16px;justify-content:space-between;align-items:center;margin:0 0 24px}
+.case-toolbar>div{min-width:0}.case-toolbar strong{font-size:13px}.case-toolbar p{font-size:12px;line-height:1.6;margin:5px 0 0;color:var(--muted);overflow-wrap:anywhere}
+.history-actions{display:flex;gap:8px;flex-wrap:wrap}.history-actions .button{padding:9px 12px;white-space:normal}
+#history-dialog{width:min(950px,calc(100vw - 24px));max-height:90vh;padding:22px;overflow:auto}
+.history-note{color:var(--muted);font-size:12px;line-height:1.6}
+.saved-case{border:1px solid var(--line);border-radius:5px;padding:16px;margin:12px 0;display:grid;gap:12px;overflow-wrap:anywhere}
+.saved-case p{font-size:12px;color:var(--muted);margin:5px 0}.saved-case details{font-size:12px;align-self:center}.saved-case summary{cursor:pointer}
+.history-form{display:grid;gap:9px;min-width:0;padding:8px}.history-form h2{margin:0 0 5px}.history-form p{line-height:1.6;font-size:13px}.history-form label{font-size:12px;font-weight:650}
+.history-form input{width:100%;padding:11px;border:1px solid var(--line);border-radius:5px;font:inherit}
+.revision-details{border:1px solid var(--line);padding:14px;border-radius:5px;margin:12px 0;overflow-wrap:anywhere}.revision-details>summary{font-size:12px;font-weight:650;cursor:pointer;line-height:1.6}
+.revision-change{padding:10px 0;border-bottom:1px solid var(--line);font-size:12px}.revision-change pre{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.6 Consolas,monospace}
+.case-toolbar button:disabled{opacity:.5;cursor:wait}
+.remove-offer{margin:20px 0 0;border-top:1px solid var(--line);padding-top:14px;font-size:12px;line-height:1.6}.remove-offer summary{cursor:pointer;color:var(--red)}
+@media(max-width:950px){.case-toolbar{align-items:stretch;flex-direction:column}.head-actions{flex-wrap:wrap}.page-head{align-items:start;flex-direction:column;gap:18px}.head-actions .button{white-space:normal}}
+@media(max-width:500px){#history-dialog{padding:14px}.case-toolbar .history-actions .button{flex:1 1 calc(50% - 8px)}.history-actions>details{flex-basis:100%}.history-form .dialog-actions{flex-wrap:wrap}}
