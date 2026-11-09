@@ -1,5 +1,11 @@
 # OfferLens
 
+## Aktualizace 9. 11. 2026: Vlastní poptávka a přenosný případ
+
+Zadání produktu, množství, termínu, záruky a rozpočtu lze upravit. Změna produktu nebo množství zruší potvrzení shody nabídek. Celou poptávku lze uložit do JSON a znovu otevřít; obnovené nabídky vždy vyžadují nové ověření. Soubor se ukládá ručně do zařízení, ne do sdílené databáze. Stále jde o jednu položku v CZK bez PDF/OCR.
+
+English: editable requirements and portable workspace JSON. Product/quantity changes invalidate matching approvals; restored offers always require fresh review.
+
 [Česky](#česky) · [English](#english)
 
 ## Česky
@@ -22,7 +28,7 @@ Projekt ukazuje běžný nákupní problém: nejlevnější nabídka nemusí spl
 
 ### Použití krok za krokem
 
-Otevřete připravené fiktivní porovnání a projděte, proč nabídka vyhovuje či nevyhovuje. Novou nabídku lze vložit jako text: s místním API klíčem AI navrhne pole a doslovné úryvky, bez klíče lze údaje doplnit ručně. Před zařazením nabídky je potřeba zkontrolovat hodnoty i shodu produktu. Nakonec lze stáhnout výpočet a krátký podklad k rozhodnutí; JSON lze znovu načíst pro stejnou poptávku. Požadavky poptávky jsou v této ukázce pevně nastavené.
+Otevřete připravené fiktivní porovnání a projděte, proč nabídka vyhovuje či nevyhovuje. Novou nabídku lze vložit jako text: s místním API klíčem AI navrhne pole a doslovné úryvky, bez klíče lze údaje doplnit ručně. Před zařazením nabídky je potřeba zkontrolovat hodnoty i shodu produktu. Nakonec lze stáhnout výpočet a krátký podklad k rozhodnutí; JSON lze znovu načíst pro stejnou poptávku. Požadavky lze upravit tlačítkem Upravit poptávku.
 
 ### Použité technologie a možné rozšíření
 
@@ -79,7 +85,7 @@ The app demonstrates a common purchasing decision: the lowest quoted price may f
 
 ### Workflow, stack, and possible adoption
 
-Review the fictional comparison and inspect each result. Paste a new quote for AI-suggested fields and source excerpts when a local API key is configured, or enter the fields manually. Verify all fields and product match before accepting the comparison. Export the decision as JSON, CSV, or Markdown; JSON can be re-imported for the same request. The request requirements are fixed in this demo.
+Review the fictional comparison and inspect each result. Paste a new quote for AI-suggested fields and source excerpts when a local API key is configured, or enter the fields manually. Verify all fields and product match before accepting the comparison. Export the decision as JSON, CSV, or Markdown; JSON can be re-imported for the same request. The request requirements can be edited in the app.
 
 The implemented stack is **vanilla JavaScript, HTML/CSS, a Node.js HTTP server, OpenAI Responses API structured output, and `node:test`**. AI extracts from pasted text; deterministic code calculates totals and checks requirements. The app does not open URLs or download web pages. PDF/OCR, multiple product lines or currencies, approvals, and procurement-system integration are future possibilities.
 

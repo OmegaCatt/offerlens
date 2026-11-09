@@ -1,5 +1,7 @@
 import { compareOffers, comparisonCsv, decisionBrief, formatCzk, FIELD_KEYS, importReport } from './engine.mjs';
-import { demoOffers, requirement } from './fixtures.mjs';
+import { demoOffers, requirement as defaultRequirement } from './fixtures.mjs';
+import {validateRequirement,decodeWorkspace} from './workspace.mjs';
+let requirement=structuredClone(defaultRequirement);
 
 const $ = id => document.getElementById(id);
 const clone = value => structuredClone(value);
@@ -23,7 +25,7 @@ const chip = status => child('span',{class:`chip ${status}`},statusText[status])
 function analysis() { return compareOffers(state.offers, requirement); }
 function sectionTitle(title, subtitle, link) { return child('div',{class:'section-title'},child('div',{},child('h2',{},title),child('p',{},subtitle)),link ? child('a',{href:link,class:'text-link'},'Zobrazit vše →') : null); }
 function requirementBar() { return child('div',{class:'requirements'},
-  child('div',{class:'req-title'},child('strong',{},'Zadání poptávky'),child('p',{},'OL–001 · kancelářské vybavení')),
+  child('div',{class:'req-title'},child('strong',{},'Zadání poptávky'),child('p',{},'Aktuální zadání · CZK')),
   ...[['PRODUKT',requirement.product],['MNOŽSTVÍ',`${requirement.quantity} kusů`],['DODÁNÍ',`do ${requirement.maxDays} dní`],['ROZPOČET',formatCzk(requirement.budgetHalers)]].map(([label,value])=>child('div',{},child('span',{class:'req-label'},label),child('strong',{class:'req-value'},value)))); }
 function vendorCell(o) { return child('div',{class:'vendor'},child('span',{class:'vendor-mark'},o.name.slice(0,1).toUpperCase()),child('span',{},child('strong',{},o.name),child('small',{},o.origin==='prepared'?'Připravená fiktivní nabídka':o.origin==='ai'?'AI extrakce':'Ruční podklad'))); }
 function offerTable(items) {
@@ -94,7 +96,26 @@ $('import-file').addEventListener('change',async event=>{
   }catch(error){toast(`Načtení se nepodařilo: ${error.message}`);}
   event.target.value='';
 });
-$('reset-button').addEventListener('click',()=>{state.offers=clone(demoOffers);state.view='overview';location.hash='overview';render();toast('Připravené fiktivní nabídky byly obnoveny.');});
+$('reset-button').addEventListener('click',()=>{requirement=clone(defaultRequirement);state.offers=clone(demoOffers);state.view='overview';location.hash='overview';render();toast('Připravené fiktivní nabídky byly obnoveny.');});
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>$(b.dataset.close).close()));
 fetch('/api/health').then(r=>r.json()).then(x=>{state.aiConfigured=x.aiConfigured;$('quota-note').textContent=`Zbývá ${x.remainingAiCalls} AI volání v aktuálním denním okně.`;if(!x.aiConfigured)$('ai-button').title='Na místním serveru není nastaven API klíč.'}).catch(()=>{});
 selectView();
+
+function editRequirement(){
+ const dialog=child('dialog',{'aria-label':'Upravit poptávku'}), form=child('form'), inputs={};
+ dialog.append(child('h2',{},'Vlastní poptávka'),child('p',{},'Změna produktu nebo množství vyžaduje novou kontrolu shody u všech nabídek. Ceny se vždy přepočítají.'));
+ for(const [key,label,value] of [['product','Produkt',requirement.product],['quantity','Počet kusů',requirement.quantity],['maxDays','Nejvýše dnů',requirement.maxDays],['minWarrantyMonths','Záruka v měsících',requirement.minWarrantyMonths],['budget','Rozpočet v Kč',requirement.budgetHalers/100]]){
+  const input=child('input',{name:key,type:key==='product'?'text':'number',required:'',value,min:key==='budget'?'0.01':'1',step:key==='budget'?'0.01':'1',maxlength:'200'});inputs[key]=input;form.append(child('label',{},label,input));
+ }
+ const error=child('p',{role:'alert'});form.append(error,child('button',{type:'submit'},'Uložit zadání'),child('button',{type:'button',onclick:()=>dialog.close()},'Zrušit'));
+ form.addEventListener('submit',e=>{e.preventDefault();try{
+ const next=validateRequirement({product:inputs.product.value,quantity:Number(inputs.quantity.value),maxDays:Number(inputs.maxDays.value),minWarrantyMonths:Number(inputs.minWarrantyMonths.value),budgetHalers:Math.round(Number(inputs.budget.value)*100),currency:'CZK'});
+ if(next.product!==requirement.product||next.quantity!==requirement.quantity)state.offers.forEach(o=>{o.reviewed=false;o.productMatch=null});
+ requirement=next;render();dialog.close();toast('Zadání uloženo, všechny nabídky přepočítány.');
+ }catch(e){error.textContent=e.message}});dialog.append(form);document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove(),{once:true});dialog.showModal();
+}
+const tools=child('div',{class:'workspace-tools'},child('button',{type:'button',onclick:editRequirement},'Upravit poptávku'),child('button',{type:'button',onclick:()=>download('offerlens_pripad.json',JSON.stringify({format:'offerlens-workspace',version:1,requirements:requirement,offers:state.offers}), 'application/json')},'Uložit případ'));
+const input=child('input',{type:'file',accept:'.json',hidden:''});
+tools.append(child('button',{type:'button',onclick:()=>input.click()},'Otevřít případ'),input);
+input.addEventListener('change',async()=>{try{const file=input.files[0];if(!file)return;if(file.size>1_000_000)throw Error('Limit případu je 1 MB.');const saved=decodeWorkspace(await file.text());requirement=saved.requirements;state.offers=saved.offers;render();toast('Poptávka obnovena. Nabídky vyžadují nové ověření.')}catch(e){toast(e.message)}finally{input.value=''}});
+document.querySelector('main .shell').prepend(tools);

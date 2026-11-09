@@ -1,3 +1,7 @@
+# Ověření 9. 11. 2026
+
+14 automatických testů prošlo. Browser QA ověřilo úpravu termínu, export případu, reset a obnovení vlastního zadání, nutnost opětovného ověření a mobilní šířku 390 px bez přetečení a JS chyb. AI extrakce nebyla v tomto průchodu živě volána. Více položek a PDF/OCR jsou další etapou.
+
 # Ověření OfferLens
 
 Aktualizováno 31. 10. 2026. Testováno místně na Windows, Node.js 24.

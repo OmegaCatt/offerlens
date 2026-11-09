@@ -7,3 +7,4 @@
 .tech-body{border-top:1px solid #ebe7e1;padding:5px 0 12px}
 .tech-body p{font-size:12px;line-height:1.65;color:#5c5753;margin:10px 0}
 @media(max-width:650px){.tech-details summary span{display:block;float:none;margin-top:3px}}
+.workspace-tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}.workspace-tools button,dialog form button{border:1px solid #cbd0d8;background:white;color:#293346;padding:9px 12px;border-radius:4px;cursor:pointer}dialog form label{display:block;margin:12px 0}dialog form label input{display:block;width:100%;padding:9px;border:1px solid #cbd0d8;border-radius:4px;margin-top:5px}

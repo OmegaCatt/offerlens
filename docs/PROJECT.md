@@ -1,3 +1,7 @@
+# Etapa 9. 11. 2026
+
+14 automatických testů prošlo. Browser QA ověřilo úpravu termínu, export případu, reset a obnovení vlastního zadání, nutnost opětovného ověření a mobilní šířku 390 px bez přetečení a JS chyb. AI extrakce nebyla v tomto průchodu živě volána. Více položek a PDF/OCR jsou další etapou.
+
 # OfferLens — project memory
 
 Updated 2026-10-31. Second portfolio application after DataDesk. It demonstrates AI extraction, deterministic calculations, source snippets, uncertainty handling, human correction and QA.
