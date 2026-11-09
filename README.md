@@ -1,5 +1,9 @@
 # OfferLens
 
+[![Verify OfferLens](https://github.com/OmegaCatt/offerlens/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OmegaCatt/offerlens/actions/workflows/ci.yml)
+
+Kód etapy OL-2 (`6b650ba`) prošel [GitHub Actions včetně browser QA](https://github.com/OmegaCatt/offerlens/actions/runs/42720866316). Součástí běhu je skutečné IndexedDB a souběh dvou karet; živé AI API se v CI nevolá.
+
 ## Etapa 10. 11. 2026: více poptávek a místní historie
 
 Poptávky mají vlastní název, stabilní ID nabídek a číslované verze s důvodem uložení. Ukládají se **jen po stisknutí tlačítka do IndexedDB tohoto prohlížeče**. Nejvýše 20 poptávek, posledních 10 verzí každé a celkem 10 MB. Dvě karty nesmějí přepsat tutéž starší verzi; při konfliktu zůstane pracovní obsah zachovaný a lze jej uložit jako kopii.

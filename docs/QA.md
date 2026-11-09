@@ -1,5 +1,7 @@
 # Etapa 10. 11. 2026 – OL-2a až OL-2f
 
+Vzdálené ověření: commit `6b650ba` úspěšně prošel [GitHub Actions 42720866316](https://github.com/OmegaCatt/offerlens/actions/runs/42720866316), včetně jednotkových testů, syntaxe, browser QA a nahrání artefaktu `offerlens-history-qa`. Nejde pouze o připravený workflow.
+
 Místní měření Node 24.22.1, deset vzorků a 30 nabídek po 8 000 znacích: snapshot 275 503 B, medián přípravy/otisku 6,74 ms, medián vytvoření verze 3,31 ms. Kontrola souhrnného limitu pro 8 272 471 B trvala v jednom vzorku 45,73 ms. Příkaz `node scripts/benchmark-history.mjs`. Měření pokrývá pouze CPU/serializaci v Node, nikoli diskovou latenci IndexedDB v prohlížeči nebo AI a síť.
 
 22 Node testů prošlo. Nové kontroly: očištění snapshotu, stabilní ID, zrušení důvěry v obnovená potvrzení, neměnnost starých verzí, vynechání totožného uložení, konfliktní verze a opětovné vytvoření smazaného případu, posledních deset verzí, rozdíly polí/zadání/odebrání, limity 20 případů/10 MB/30 nabídek, prázdný případ a důvody uložení.
