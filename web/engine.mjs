@@ -111,9 +111,15 @@ export function validateAiPayload(raw, payload) {
   const fields = Object.fromEntries(FIELD_KEYS.map(k => [k, payload.fields[k] ?? null]));
   for (const k of ['priceVat','shippingVat']) if (!VAT_MODES.includes(fields[k])) fields[k] = 'unknown';
   for (const k of ['quantity','vatRate','leadDays','warrantyMonths']) if (fields[k] !== null && !integer(fields[k], 0, 100000)) fields[k] = null;
+  for(const key of FIELD_KEYS.filter(key=>!['quantity','vatRate','leadDays','warrantyMonths'].includes(key)))if(fields[key]!==null&&(typeof fields[key]!=='string'||fields[key].length>300))fields[key]=null;
   const evidence = {};
   for (const item of payload.evidence.slice(0, 30)) if (FIELD_KEYS.includes(item?.field) && typeof item?.quote === 'string' && item.quote.length <= 200) evidence[item.field] = item.quote;
   const checked = validateEvidence(raw, fields, evidence);
+  // Conservative guard for conflicting explicitly labelled unit prices, not general semantic validation.
+  const quotedUnitPrices=[...raw.matchAll(/jednotkov[áa]\s+cen[ay]\s+(\d[\d \u00a0]*(?:[,.]\d{1,2})?)\s*Kč/gi)].map(match=>parseHalers(match[1])).filter(value=>value!==null);
+  if(new Set(quotedUnitPrices).size>1){checked.fields.unitPrice=null;if(!checked.unsupported.includes('unitPrice'))checked.unsupported.push('unitPrice');}
+  const totals=[...raw.matchAll(/(?:celkem|dohromady)\s+(\d[\d \u00a0]*(?:[,.]\d{1,2})?)\s*Kč/gi)].map(match=>parseHalers(match[1]));
+  if(/jednotkov[áa]\s+cena\s+nen[ií]\s+uvedena/i.test(raw)||(!quotedUnitPrices.length&&checked.fields.unitPrice!==null&&totals.includes(parseHalers(checked.fields.unitPrice)))){checked.fields.unitPrice=null;if(!checked.unsupported.includes('unitPrice'))checked.unsupported.push('unitPrice');}
   for (const key of checked.unsupported) delete evidence[key];
   return { fields: checked.fields, evidence, unsupported: checked.unsupported };
 }

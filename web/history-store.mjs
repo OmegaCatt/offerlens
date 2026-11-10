@@ -1,12 +1,13 @@
 import { enforceStorageBudget, nextRevision } from './history-model.mjs';
 
 export const DATABASE_NAME = 'offerlens-local-v1';
+export function createHistoryStore({databaseName=DATABASE_NAME,revisionBuilder=nextRevision,budgetChecker=enforceStorageBudget}={}){
 const STORE = 'cases';
 
 async function openDatabase() {
   if (!globalThis.indexedDB) throw Error('Tento prohlížeč nepodporuje místní historii. Použijte export JSON.');
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DATABASE_NAME, 1);
+    const request = indexedDB.open(databaseName, 1);
     request.onupgradeneeded = () => request.result.createObjectStore(STORE, { keyPath: 'id' });
     request.onsuccess = () => {
       const database = request.result;
@@ -32,7 +33,7 @@ async function transaction(mode, operation) {
   });
 }
 
-export async function listCases() {
+async function listCases() {
   return transaction('readonly', (store, set, fail) => {
     const request = store.getAll();
     request.onsuccess = () => {
@@ -42,14 +43,14 @@ export async function listCases() {
   });
 }
 
-export async function readCase(id) {
+async function readCase(id) {
   return transaction('readonly', (store, set) => {
     const request = store.get(id);
     request.onsuccess = () => set(request.result ?? null);
   });
 }
 
-export async function saveCase(prepared, options) {
+async function saveCase(prepared, options) {
   return transaction('readwrite', (store, set, fail) => {
     // No await inside this transaction: getAll + conflict check + write are atomic.
     const request = store.getAll();
@@ -57,9 +58,9 @@ export async function saveCase(prepared, options) {
       try {
         const records = request.result;
         const existing = records.find(record => record.id === options.id);
-        const result = nextRevision(existing, prepared, options);
+        const result = revisionBuilder(existing, prepared, options);
         const updated = records.filter(record => record.id !== options.id).concat(result.record);
-        enforceStorageBudget(updated);
+        budgetChecker(updated);
         if (!result.unchanged) store.put(result.record);
         set(result);
       } catch (caught) { fail(caught); }
@@ -67,7 +68,7 @@ export async function saveCase(prepared, options) {
   });
 }
 
-export async function removeCase(id, expectedRevision) {
+async function removeCase(id, expectedRevision) {
   return transaction('readwrite', (store, set, fail) => {
     const request = store.get(id);
     request.onsuccess = () => {
@@ -77,3 +78,7 @@ export async function removeCase(id, expectedRevision) {
     };
   });
 }
+
+return {listCases,readCase,saveCase,removeCase};
+}
+export const {listCases,readCase,saveCase,removeCase}=createHistoryStore();

@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {readPdf} from '../pdf.mjs';
+import {sourceLocation} from '../web/pdf-client.mjs';
+const fixture=code=>execFileSync(process.env.OFFERLENS_PYTHON||'python',['-c',code],{maxBuffer:3_000_000,windowsHide:true});
+test('real PDF parses page locations; source evidence maps to later page',async()=>{const data=fixture('import io,sys\nfrom reportlab.pdfgen import canvas\nb=io.BytesIO();c=canvas.Canvas(b);c.drawString(50,750,"Fictional quote first page");c.showPage();c.drawString(50,750,"Shipping 100 CZK");c.save();sys.stdout.buffer.write(b.getvalue())');const result=await readPdf({filename:'quote.pdf',data:data.toString('base64')});assert.equal(result.locators.length,2);assert.equal(sourceLocation(result.content,'Shipping 100 CZK'),'Strana 2');assert.equal(sourceLocation('a','missing'),'')});
+test('PDF rejects scan, invalid path/base64/size and overlong text without silent truncation',async()=>{const blank=fixture('import io,sys\nfrom pypdf import PdfWriter\nw=PdfWriter();w.add_blank_page(300,300);b=io.BytesIO();w.write(b);sys.stdout.buffer.write(b.getvalue())');await assert.rejects(readPdf({filename:'scan.pdf',data:blank.toString('base64')}));for(const input of [{filename:'x.pdf',data:'!!'},{filename:'x.docx',data:'AAAA'},{filename:'x.pdf',data:Buffer.alloc(2_000_001).toString('base64')}])await assert.rejects(async()=>readPdf(input));const huge=fixture('import io,sys\nfrom reportlab.pdfgen import canvas\nb=io.BytesIO();c=canvas.Canvas(b);c.drawString(50,750,"a"*9000);c.save();sys.stdout.buffer.write(b.getvalue())');await assert.rejects(readPdf({filename:'long.pdf',data:huge.toString('base64')}),/8 000/)});

@@ -1,0 +1,979 @@
+{
+  "timestamp": "2026-11-10T00:14:04.115Z",
+  "model": "gpt-5.4-mini",
+  "mode": "live",
+  "limits": {
+    "calls": 12
+  },
+  "note": "Curated fictional data; exact expected-field checks, not general AI accuracy. Quote occurrence is checked by runtime; factual interpretation still requires review.",
+  "fieldsPassed": 71,
+  "fieldsExpected": 74,
+  "falsePopulated": 1,
+  "results": [
+    {
+      "id": "E01",
+      "category": "úplné údaje",
+      "checks": [
+        {
+          "field": "supplier",
+          "expected": "Alfa",
+          "actual": "Dodavatel Alfa",
+          "pass": false,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "product",
+          "expected": "Monitor A",
+          "actual": "Monitor A",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "quantity",
+          "expected": 10,
+          "actual": 10,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "unitPrice",
+          "expected": "6900",
+          "actual": "6 900 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "priceVat",
+          "expected": "excl",
+          "actual": "excl",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "vatRate",
+          "expected": 21,
+          "actual": 21,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingPrice",
+          "expected": "100",
+          "actual": "100 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingVat",
+          "expected": "incl",
+          "actual": "incl",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "leadDays",
+          "expected": 7,
+          "actual": 7,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "warrantyMonths",
+          "expected": 36,
+          "actual": 36,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "currency",
+          "expected": "CZK",
+          "actual": "CZK",
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 10,
+      "total": 11,
+      "falsePopulated": 0,
+      "output": {
+        "fields": {
+          "supplier": "Dodavatel Alfa",
+          "product": "Monitor A",
+          "quantity": 10,
+          "unitPrice": "6 900 Kč",
+          "priceVat": "excl",
+          "shippingPrice": "100 Kč",
+          "shippingVat": "incl",
+          "vatRate": 21,
+          "leadDays": 7,
+          "warrantyMonths": 36,
+          "currency": "CZK"
+        },
+        "evidence": {
+          "supplier": "Dodavatel Alfa",
+          "product": "Monitor A",
+          "quantity": "Počet 10 kusů",
+          "unitPrice": "6 900 Kč bez DPH",
+          "priceVat": "bez DPH",
+          "shippingPrice": "100 Kč včetně DPH",
+          "shippingVat": "včetně DPH",
+          "vatRate": "Sazba DPH 21 %",
+          "leadDays": "Dodání 7 kalendářních dnů",
+          "warrantyMonths": "Záruka 36 měsíců",
+          "currency": "Kč"
+        },
+        "unsupported": [],
+        "model": "gpt-5.4-mini"
+      }
+    },
+    {
+      "id": "E02",
+      "category": "pracovní dny",
+      "checks": [
+        {
+          "field": "quantity",
+          "expected": 4,
+          "actual": 4,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "unitPrice",
+          "expected": "5000",
+          "actual": "5 000 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "priceVat",
+          "expected": "incl",
+          "actual": "incl",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingPrice",
+          "expected": "0",
+          "actual": "0 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "leadDays",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "warrantyMonths",
+          "expected": 24,
+          "actual": 24,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "currency",
+          "expected": "CZK",
+          "actual": "CZK",
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 7,
+      "total": 7,
+      "falsePopulated": 0,
+      "output": {
+        "fields": {
+          "supplier": "Beta",
+          "product": "Monitor B",
+          "quantity": 4,
+          "unitPrice": "5 000 Kč",
+          "priceVat": "incl",
+          "shippingPrice": "0 Kč",
+          "shippingVat": "incl",
+          "vatRate": 21,
+          "leadDays": null,
+          "warrantyMonths": 24,
+          "currency": "CZK"
+        },
+        "evidence": {
+          "supplier": "Beta",
+          "product": "Monitor B",
+          "quantity": "4",
+          "unitPrice": "5 000 Kč",
+          "priceVat": "včetně DPH",
+          "shippingPrice": "Doprava zdarma",
+          "shippingVat": "Doprava zdarma",
+          "vatRate": "21 %",
+          "warrantyMonths": "24 měsíců",
+          "currency": "Kč"
+        },
+        "unsupported": [],
+        "model": "gpt-5.4-mini"
+      }
+    },
+    {
+      "id": "E03",
+      "category": "chybějící doprava",
+      "checks": [
+        {
+          "field": "quantity",
+          "expected": 2,
+          "actual": 2,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "unitPrice",
+          "expected": "4000",
+          "actual": "4 000 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "priceVat",
+          "expected": "excl",
+          "actual": "excl",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingPrice",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingVat",
+          "expected": "unknown",
+          "actual": "unknown",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "leadDays",
+          "expected": 10,
+          "actual": 10,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "vatRate",
+          "expected": 21,
+          "actual": 21,
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 7,
+      "total": 7,
+      "falsePopulated": 0,
+      "output": {
+        "fields": {
+          "supplier": "Gama",
+          "product": "Monitor G",
+          "quantity": 2,
+          "unitPrice": "4 000 Kč",
+          "priceVat": "excl",
+          "shippingPrice": null,
+          "shippingVat": "unknown",
+          "vatRate": 21,
+          "leadDays": 10,
+          "warrantyMonths": 24,
+          "currency": "CZK"
+        },
+        "evidence": {
+          "supplier": "Dodavatel Gama",
+          "product": "Monitor G",
+          "quantity": "2 kusy",
+          "unitPrice": "4 000 Kč",
+          "priceVat": "bez DPH",
+          "vatRate": "sazba 21 %",
+          "leadDays": "Dodání do 10 kalendářních dnů",
+          "warrantyMonths": "záruka 24 měsíců",
+          "currency": "Kč"
+        },
+        "unsupported": [],
+        "model": "gpt-5.4-mini"
+      }
+    },
+    {
+      "id": "E04",
+      "category": "neznámá DPH",
+      "checks": [
+        {
+          "field": "quantity",
+          "expected": 3,
+          "actual": 3,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "unitPrice",
+          "expected": "4500",
+          "actual": "4 500 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "priceVat",
+          "expected": "unknown",
+          "actual": "unknown",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingPrice",
+          "expected": "200",
+          "actual": "200 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingVat",
+          "expected": "unknown",
+          "actual": "unknown",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "vatRate",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "leadDays",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 7,
+      "total": 7,
+      "falsePopulated": 0,
+      "output": {
+        "fields": {
+          "supplier": "Firma Delta",
+          "product": "monitory",
+          "quantity": 3,
+          "unitPrice": "4 500 Kč",
+          "priceVat": "unknown",
+          "shippingPrice": "200 Kč",
+          "shippingVat": "unknown",
+          "vatRate": null,
+          "leadDays": null,
+          "warrantyMonths": 24,
+          "currency": "CZK"
+        },
+        "evidence": {
+          "supplier": "Firma Delta",
+          "product": "monitory",
+          "quantity": "3",
+          "unitPrice": "4 500 Kč",
+          "shippingPrice": "200 Kč",
+          "warrantyMonths": "24 měsíců",
+          "currency": "Kč"
+        },
+        "unsupported": [],
+        "model": "gpt-5.4-mini"
+      }
+    },
+    {
+      "id": "E05",
+      "category": "cizí měna",
+      "checks": [
+        {
+          "field": "quantity",
+          "expected": 2,
+          "actual": 2,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "currency",
+          "expected": "EUR",
+          "actual": null,
+          "pass": false,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "priceVat",
+          "expected": "excl",
+          "actual": "excl",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "vatRate",
+          "expected": 21,
+          "actual": 21,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "leadDays",
+          "expected": 6,
+          "actual": 6,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "warrantyMonths",
+          "expected": 36,
+          "actual": 36,
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 5,
+      "total": 6,
+      "falsePopulated": 0,
+      "output": {
+        "fields": {
+          "supplier": "Epsilon",
+          "product": "Monitor E",
+          "quantity": 2,
+          "unitPrice": "250 EUR",
+          "priceVat": "excl",
+          "shippingPrice": "20 EUR",
+          "shippingVat": "excl",
+          "vatRate": 21,
+          "leadDays": 6,
+          "warrantyMonths": 36,
+          "currency": null
+        },
+        "evidence": {
+          "supplier": "Dodavatel Epsilon",
+          "product": "Monitor E",
+          "quantity": "2 kusy",
+          "unitPrice": "250 EUR bez DPH",
+          "priceVat": "bez DPH",
+          "shippingPrice": "Doprava 20 EUR bez DPH",
+          "shippingVat": "bez DPH",
+          "vatRate": "DPH 21 %",
+          "leadDays": "dodání 6 kalendářních dnů",
+          "warrantyMonths": "Záruka 36 měsíců"
+        },
+        "unsupported": [],
+        "model": "gpt-5.4-mini"
+      }
+    },
+    {
+      "id": "E06",
+      "category": "instrukce v podkladu",
+      "checks": [
+        {
+          "field": "quantity",
+          "expected": 2,
+          "actual": 2,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "unitPrice",
+          "expected": "3000",
+          "actual": "3 000 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "leadDays",
+          "expected": 9,
+          "actual": 9,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingPrice",
+          "expected": "0",
+          "actual": "0 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "vatRate",
+          "expected": 21,
+          "actual": 21,
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 5,
+      "total": 5,
+      "falsePopulated": 0,
+      "output": {
+        "fields": {
+          "supplier": "Zeta",
+          "product": "Monitor Z",
+          "quantity": 2,
+          "unitPrice": "3 000 Kč",
+          "priceVat": "excl",
+          "shippingPrice": "0 Kč",
+          "shippingVat": "unknown",
+          "vatRate": 21,
+          "leadDays": 9,
+          "warrantyMonths": 24,
+          "currency": "CZK"
+        },
+        "evidence": {
+          "supplier": "Dodavatel Zeta",
+          "product": "Monitor Z",
+          "quantity": "2 kusy",
+          "unitPrice": "3 000 Kč bez DPH za kus",
+          "priceVat": "bez DPH",
+          "shippingPrice": "Doprava zdarma",
+          "vatRate": "21 % DPH",
+          "leadDays": "Dodání 9 kalendářních dnů",
+          "warrantyMonths": "Záruka 24 měsíců",
+          "currency": "3 000 Kč"
+        },
+        "unsupported": [],
+        "model": "gpt-5.4-mini"
+      }
+    },
+    {
+      "id": "E07",
+      "category": "desetinné částky",
+      "checks": [
+        {
+          "field": "quantity",
+          "expected": 12,
+          "actual": 12,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "unitPrice",
+          "expected": "1234.50",
+          "actual": "1 234,50 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "priceVat",
+          "expected": "incl",
+          "actual": "incl",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingPrice",
+          "expected": "99.90",
+          "actual": "99,90 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingVat",
+          "expected": "incl",
+          "actual": "incl",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "leadDays",
+          "expected": 8,
+          "actual": 8,
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 6,
+      "total": 6,
+      "falsePopulated": 0,
+      "output": {
+        "fields": {
+          "supplier": "Eta",
+          "product": "Monitor H",
+          "quantity": 12,
+          "unitPrice": "1 234,50 Kč",
+          "priceVat": "incl",
+          "shippingPrice": "99,90 Kč",
+          "shippingVat": "incl",
+          "vatRate": 21,
+          "leadDays": 8,
+          "warrantyMonths": 24,
+          "currency": "CZK"
+        },
+        "evidence": {
+          "supplier": "Eta",
+          "product": "Monitor H",
+          "quantity": "12 kusů",
+          "unitPrice": "1 234,50 Kč",
+          "priceVat": "včetně DPH",
+          "shippingPrice": "99,90 Kč",
+          "shippingVat": "včetně DPH",
+          "vatRate": "21 %",
+          "leadDays": "8 kalendářních dnů",
+          "warrantyMonths": "24 měsíců",
+          "currency": "Kč"
+        },
+        "unsupported": [],
+        "model": "gpt-5.4-mini"
+      }
+    },
+    {
+      "id": "E08",
+      "category": "chybějící množství a sazba",
+      "checks": [
+        {
+          "field": "quantity",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "unitPrice",
+          "expected": "4000",
+          "actual": "4 000 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "priceVat",
+          "expected": "excl",
+          "actual": "excl",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "vatRate",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingPrice",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "leadDays",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "warrantyMonths",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 7,
+      "total": 7,
+      "falsePopulated": 0,
+      "output": {
+        "fields": {
+          "supplier": "Theta",
+          "product": "Monitor T",
+          "quantity": null,
+          "unitPrice": "4 000 Kč",
+          "priceVat": "excl",
+          "shippingPrice": null,
+          "shippingVat": "unknown",
+          "vatRate": null,
+          "leadDays": null,
+          "warrantyMonths": null,
+          "currency": "CZK"
+        },
+        "evidence": {
+          "supplier": "Dodavatel Theta",
+          "product": "Monitor T",
+          "unitPrice": "4 000 Kč bez DPH",
+          "priceVat": "bez DPH",
+          "currency": "Kč"
+        },
+        "unsupported": [],
+        "model": "gpt-5.4-mini"
+      }
+    },
+    {
+      "id": "E09",
+      "category": "rozporná cena",
+      "checks": [
+        {
+          "field": "quantity",
+          "expected": 10,
+          "actual": 10,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "unitPrice",
+          "expected": null,
+          "actual": "6 000 Kč",
+          "pass": false,
+          "unsupportedPopulation": true
+        },
+        {
+          "field": "priceVat",
+          "expected": "excl",
+          "actual": "excl",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingPrice",
+          "expected": "0",
+          "actual": "0 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "vatRate",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 4,
+      "total": 5,
+      "falsePopulated": 1,
+      "output": {
+        "fields": {
+          "supplier": "Iota",
+          "product": "monitory",
+          "quantity": 10,
+          "unitPrice": "6 000 Kč",
+          "priceVat": "excl",
+          "shippingPrice": "0 Kč",
+          "shippingVat": "unknown",
+          "vatRate": null,
+          "leadDays": null,
+          "warrantyMonths": null,
+          "currency": "CZK"
+        },
+        "evidence": {
+          "supplier": "Dodavatel Iota",
+          "product": "10 monitorů",
+          "quantity": "10",
+          "unitPrice": "6 000 Kč bez DPH",
+          "priceVat": "bez DPH",
+          "shippingPrice": "Doprava zdarma",
+          "currency": "Kč"
+        },
+        "unsupported": [],
+        "model": "gpt-5.4-mini"
+      }
+    },
+    {
+      "id": "E10",
+      "category": "nezaměnit součet za kus",
+      "checks": [
+        {
+          "field": "quantity",
+          "expected": 5,
+          "actual": 5,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "unitPrice",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "priceVat",
+          "expected": "incl",
+          "actual": "incl",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "leadDays",
+          "expected": 12,
+          "actual": 12,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingPrice",
+          "expected": "0",
+          "actual": "0 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 5,
+      "total": 5,
+      "falsePopulated": 0,
+      "output": {
+        "fields": {
+          "supplier": "Kappa",
+          "product": null,
+          "quantity": 5,
+          "unitPrice": null,
+          "priceVat": "incl",
+          "shippingPrice": "0 Kč",
+          "shippingVat": null,
+          "vatRate": null,
+          "leadDays": 12,
+          "warrantyMonths": 24,
+          "currency": "CZK"
+        },
+        "evidence": {
+          "supplier": "Dodavatel Kappa",
+          "quantity": "5",
+          "priceVat": "včetně DPH",
+          "shippingPrice": "Doprava zdarma",
+          "leadDays": "Dodání 12 kalendářních dnů",
+          "warrantyMonths": "Záruka 24 měsíců",
+          "currency": "Kč"
+        },
+        "unsupported": [
+          "product",
+          "shippingVat"
+        ],
+        "model": "gpt-5.4-mini"
+      }
+    },
+    {
+      "id": "E11",
+      "category": "částečná dostupnost",
+      "checks": [
+        {
+          "field": "quantity",
+          "expected": 6,
+          "actual": 6,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "unitPrice",
+          "expected": "5000",
+          "actual": "5 000 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "vatRate",
+          "expected": 21,
+          "actual": 21,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "leadDays",
+          "expected": 7,
+          "actual": 7,
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 4,
+      "total": 4,
+      "falsePopulated": 0,
+      "output": {
+        "fields": {
+          "supplier": "Lambda",
+          "product": null,
+          "quantity": 6,
+          "unitPrice": "5 000 Kč",
+          "priceVat": "excl",
+          "shippingPrice": "0 Kč",
+          "shippingVat": "unknown",
+          "vatRate": 21,
+          "leadDays": 7,
+          "warrantyMonths": 24,
+          "currency": "CZK"
+        },
+        "evidence": {
+          "supplier": "Dodavatel Lambda.",
+          "quantity": "nabízíme pouze 6 kusů",
+          "unitPrice": "5 000 Kč bez DPH za kus",
+          "priceVat": "bez DPH",
+          "shippingPrice": "Doprava zdarma.",
+          "vatRate": "DPH 21 %",
+          "leadDays": "Dodání 7 kalendářních dnů",
+          "warrantyMonths": "záruka 24 měsíců",
+          "currency": "5 000 Kč"
+        },
+        "unsupported": [
+          "product"
+        ],
+        "model": "gpt-5.4-mini"
+      }
+    },
+    {
+      "id": "E12",
+      "category": "rozmezí není jedno datum",
+      "checks": [
+        {
+          "field": "quantity",
+          "expected": 3,
+          "actual": 3,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "leadDays",
+          "expected": null,
+          "actual": null,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "warrantyMonths",
+          "expected": 36,
+          "actual": 36,
+          "pass": true,
+          "unsupportedPopulation": false
+        },
+        {
+          "field": "shippingPrice",
+          "expected": "100",
+          "actual": "100 Kč",
+          "pass": true,
+          "unsupportedPopulation": false
+        }
+      ],
+      "passed": 4,
+      "total": 4,
+      "falsePopulated": 0,
+      "output": {
+        "fields": {
+          "supplier": "Dodavatel Mí",
+          "product": "monitory",
+          "quantity": 3,
+          "unitPrice": "6 000 Kč",
+          "priceVat": "incl",
+          "shippingPrice": "100 Kč",
+          "shippingVat": "incl",
+          "vatRate": 21,
+          "leadDays": null,
+          "warrantyMonths": 36,
+          "currency": "CZK"
+        },
+        "evidence": {
+          "supplier": "Dodavatel Mí",
+          "product": "monitory",
+          "quantity": "3",
+          "unitPrice": "6 000 Kč včetně DPH",
+          "priceVat": "včetně DPH",
+          "shippingPrice": "Doprava 100 Kč včetně DPH",
+          "shippingVat": "včetně DPH",
+          "vatRate": "DPH 21 %",
+          "warrantyMonths": "Záruka 36 měsíců",
+          "currency": "Doprava 100 Kč"
+        },
+        "unsupported": [],
+        "model": "gpt-5.4-mini"
+      }
+    }
+  ]
+}

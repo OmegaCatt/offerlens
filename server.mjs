@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { extractWithAi } from './ai.mjs';
+import {readPdf} from './pdf.mjs';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), 'web');
 const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.mjs':'text/javascript; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.svg':'image/svg+xml' };
@@ -16,16 +17,16 @@ export async function readLocalKey() {
   } catch { return ''; }
 }
 function json(res, code, body) { res.writeHead(code, { ...headers, 'content-type':'application/json; charset=utf-8' }); res.end(JSON.stringify(body)); }
-async function bodyText(req) {
+async function bodyText(req,limit=12000) {
   const timeout = setTimeout(() => req.destroy(new Error('Překročen čas pro odeslání požadavku.')), 10000);
   let chunks = [], bytes = 0;
   try {
-    for await (const chunk of req) { bytes += chunk.length; if (bytes > 12000) throw new Error('Příliš dlouhý požadavek.'); chunks.push(chunk); }
+    for await (const chunk of req) { bytes += chunk.length; if (bytes > limit) throw new Error('Příliš dlouhý požadavek.'); chunks.push(chunk); }
     return Buffer.concat(chunks).toString('utf8');
   } finally { clearTimeout(timeout); }
 }
 export function createOfferServer({ apiKey = '', fetchImpl = fetch, model = 'gpt-5.4-mini', maxAiCalls = 20, windowMs = 86400000, now = Date.now } = {}) {
-  let active = 0, used = 0, windowStart = now();
+  let active = 0, imports=0, used = 0, windowStart = now();
   const remaining = () => {
     if (now() - windowStart >= windowMs) { windowStart = now(); used = 0; }
     return Math.max(0, maxAiCalls - used);
@@ -33,6 +34,16 @@ export function createOfferServer({ apiKey = '', fetchImpl = fetch, model = 'gpt
   return nodeServer(async (req,res) => {
     try {
       const url = new URL(req.url, 'http://127.0.0.1');
+      if(url.pathname.startsWith('/api/') && req.headers.host!=='127.0.0.1:'+req.socket.localPort)return json(res,403,{error:'Nepovolený host.'});
+      if(url.pathname==='/api/pdf'){
+        if(req.method!=='POST')return json(res,405,{error:'Požadován POST.'});
+        if(req.headers.origin&&req.headers.origin!=='http://127.0.0.1:'+req.socket.localPort)return json(res,403,{error:'Nepovolený původ.'});
+        if(!/^application\/json(?:;|$)/i.test(req.headers['content-type']||''))return json(res,415,{error:'Požadován JSON.'});
+        if(imports>=2)return json(res,429,{error:'Probíhají dva importy.'});imports++;
+        try{const input=JSON.parse(await bodyText(req,2_800_000));return json(res,200,await readPdf(input));}
+        catch{return json(res,400,{error:'PDF nelze načíst: vyžaduje text, nejvýše 2 MB / 50 stran / 8 000 znaků a nainstalovaný Python s pypdf. Sken potřebuje OCR.'});}
+        finally{imports--;}
+      }
       if (url.pathname === '/api/health' && req.method === 'GET') return json(res, 200, { ok:true, aiConfigured: Boolean(apiKey), model, remainingAiCalls: remaining() });
       if (url.pathname === '/api/extract') {
         if (req.method !== 'POST') return json(res, 405, { error:'Nepodporovaná metoda.' });

@@ -3,6 +3,7 @@ import { demoOffers, requirement as defaultRequirement } from './fixtures.mjs';
 import {validateRequirement,decodeWorkspace} from './workspace.mjs';
 import {prepareSnapshot,restoreSnapshot,diffSnapshots} from './history-model.mjs';
 import {listCases,readCase,saveCase,removeCase} from './history-store.mjs';
+import {importPdf,sourceLocation} from './pdf-client.mjs';
 let requirement=structuredClone(defaultRequirement);
 
 const $ = id => document.getElementById(id);
@@ -90,7 +91,7 @@ function showDetail(id) {
     const value=offer.fields[key];
     const control=enumOptions[key]?child('select',{id:`field-${key}`},...enumOptions[key].map(([v,label])=>child('option',{value:v,...(value===v?{selected:''}:{})},label))):child('input',{id:`field-${key}`,type:['quantity','vatRate','leadDays','warrantyMonths'].includes(key)?'number':'text',value:value??'',...(key==='currency'?{maxlength:8}:{maxlength:100})});
     inputs[key]=control;
-    return child('div',{class:'field-row'},child('label',{for:`field-${key}`},names[key]),control,child('p',{class:'evidence'},offer.evidence?.[key]?`Zdroj: „${offer.evidence[key]}“`:'Bez potvrzeného úryvku'));
+    return child('div',{class:'field-row'},child('label',{for:`field-${key}`},names[key]),control,child('p',{class:'evidence'},offer.evidence?.[key]?`Zdroj: ${sourceLocation(offer.raw,offer.evidence[key])} „${offer.evidence[key]}“`:'Bez potvrzeného úryvku'));
   }));
   const summary=child('div',{class:'detail-summary'},child('div',{},chip(evaluated.status),child('div',{class:'detail-flags'},...evaluated.issues.map(x=>child('p',{},'× '+x)),...evaluated.unknown.map(x=>child('p',{},'· '+x)))),child('strong',{},formatCzk(evaluated.totalHalers)));
   state.activeDetail=id;
@@ -131,7 +132,7 @@ window.addEventListener('hashchange',selectView);
 $('add-button').addEventListener('click',()=>{$('add-error').textContent='';$('add-dialog').showModal();});
 $('manual-button').addEventListener('click',()=>{const raw=$('quote-text').value.trim();if(raw.length<10||raw.length>8000){$('add-error').textContent='Vložte 10 až 8 000 znaků textu nabídky.';return}newOffer(raw,null,'manual');});
 $('ai-button').addEventListener('click',addWithAi);
-$('quote-text').addEventListener('input',()=>{if(state.activeExtraction){state.generation++;cancelExtraction();$('add-error').textContent='Text se změnil. Předchozí extrakce byla zrušena.';}});
+$('quote-text').addEventListener('input',()=>{state.generation++;if(state.activeExtraction){cancelExtraction();$('add-error').textContent='Text se změnil. Předchozí extrakce byla zrušena.';}});
 $('export-button').addEventListener('click',exportReport);
 $('export-csv-button').addEventListener('click',exportCsv);
 $('export-brief-button').addEventListener('click',exportBrief);
@@ -276,3 +277,7 @@ historyDialog.addEventListener('close',()=>state.historyGeneration++);document.b
 const caseToolbar=child('section',{class:'case-toolbar','aria-label':'Práce s poptávkami'},child('div',{},child('strong',{},'Pracovní poptávka'),child('p',{id:'case-status',role:'status'})),child('div',{class:'history-actions'},child('button',{class:'button subtle',id:'case-new',onclick:async()=>{if(!await mayReplace())return;invalidatePending();requirement=clone(defaultRequirement);state.offers=[];state.caseId=null;state.caseRevision=0;state.loadedRevision=0;state.caseTitle='Nová poptávka';state.dirty=true;render();editRequirement()}},'Nová poptávka'),child('button',{class:'button primary',id:'case-save',onclick:()=>saveToHistory()},'Uložit do historie'),child('button',{class:'button subtle',id:'case-copy',onclick:()=>saveToHistory(true)},'Uložit jako kopii'),child('button',{class:'button subtle',id:'case-history',onclick:showHistory},'Místní poptávky')));
 tools.after(caseToolbar);renderCaseStatus();
 document.querySelector('.tech-body').append(child('p',{},child('strong',{},'Místní historie: '),'IndexedDB uchovává nejvýše 20 poptávek, posledních 10 verzí každé a celkem 10 MB. Zápis a kontrola čísla verze probíhají v jedné transakci, aby jiná karta nepřepsala novější stav. JSON přenáší aktuální případ, nikoli celou historii. Obnovení vždy ruší potvrzení kontroly a shody produktu; nejde o schválení nákupu.'));
+
+$('pdf-file').addEventListener('change',async()=>{const file=$('pdf-file').files[0];if(!file)return;const generation=++state.generation;cancelExtraction();$('pdf-status').textContent='Čtu PDF místně…';try{const result=await importPdf(file);if(generation!==state.generation||!$('add-dialog').open)return;$('quote-text').value=result.content;$('pdf-status').textContent='Načteno '+result.locators.length+' stran textu. '+result.warnings.join(' ');$('add-error').textContent='Zkontrolujte text. Odeslání AI spustíte zvlášť.';}catch(error){if(generation===state.generation)$('pdf-status').textContent=error.message;}finally{$('pdf-file').value='';}});
+
+document.querySelector('.tech-body').append(child('p',{},'Textové PDF čte lokální Python/pypdf proces do 8 000 znaků, s označením stran a bez OCR. Vícepoložkový nákupní košík má samostatný odkaz v navigaci a vlastní historii. V něm se každý řádek ověřuje ručně, doprava se započítá jednou a neúplné dodávky se nedoporučí.'));
