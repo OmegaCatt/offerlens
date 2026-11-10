@@ -1,3 +1,12 @@
+# Opakované ověření 10. 11. 2026
+
+**34 Node testů prošlo.** Znovu spuštěné prohlížečové QA ověřilo skutečný pracovní postup na dočasných fiktivních podkladech, desktop i mobil a JavaScript chyby. Navíc jeden nový skutečný AI požadavek nad fiktivním E01 vrátil 11/11 očekávaných polí. Tato jedna nabídka nepotvrzuje obecnou přesnost ani všechny chybové scénáře.
+
+Ověřený předchozí commit 2dcc28c: [GitHub Actions](https://github.com/OmegaCatt/offerlens/actions/runs/42730920542); dostupnost jeho artefaktů byla ověřena. Aktuální revize dokumentace/oprav je kontrolována novým CI. Jeho přesný commit a výsledek jsou v hlavním Portfolio_PROGRESS.md. Staré věty o čekající publikaci v rozbaleném archivu platily jen pro dobu daného zápisu.
+
+<details>
+<summary>Historické výsledky, původní metriky a omezení</summary>
+
 # Etapa 10. 11. 2026 – OL-3/4/5
 
 **Nově textové PDF, vícepoložková poptávka a doložená extrakční evaluace.** Navigace „Více položek“ otevírá basket.html: vlastní zadání do 20 položek, 30 dodavatelů, cena/DPH/množství/termín/záruka po řádcích, doprava právě jednou. Částečné, duplicitní a neznámé řádky brání doporučení; dělení nákupu mezi dodavatele se neoptimalizuje. Lidská kontrola každé položky a dopravy je povinná. CZK. Jednořádkové poptávky a jejich historie zůstávají samostatné.
@@ -76,3 +85,6 @@ Browser QA ověřuje tlačítko zdrojového úryvku: odpovídající text se sku
 ## OL-6: český text a limit těla
 
 Skutečný HTTP regresní test s 8 000 znaky „ě“ prošel do mockovaného provideru, 8 001 znaků bylo odmítnuto a nevydalo další AI volání. JSON tělo má ohraničení 50 000 bajtů, samostatný znakový limit 8 000 zůstává. Celková sada nyní 34 Node testů. Mock netestuje živou AI, ověřuje přijímací kontrakt serveru.
+
+
+</details>

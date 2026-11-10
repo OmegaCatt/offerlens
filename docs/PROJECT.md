@@ -1,3 +1,12 @@
+# Aktuální rozsah a kontrola 10. 11. 2026
+
+Aktuální funkce, technologie, API, způsob použití, firemní zavedení a omezení jsou v [README](../README.md). Znovu prošlo 34 Node testů a odpovídající skutečný browser průchod desktop/mobil. Jde o fiktivní portfolio projekt. Výsledky a případné opravy jsou v [QA](QA.md).
+
+Předchozí ověřený kód 2dcc28c: [úspěšné GitHub Actions](https://github.com/OmegaCatt/offerlens/actions/runs/42730920542). Nový commit této revize má vlastní CI; aktuální stav je v hlavním protokolu portfolia. Níže uvedené historické plány nejsou seznam nehotových funkcí.
+
+<details>
+<summary>Historická projektová rozhodnutí a průběžné etapy</summary>
+
 # Etapa 10. 11. 2026 – OL-3/4/5
 
 **Nově textové PDF, vícepoložková poptávka a doložená extrakční evaluace.** Navigace „Více položek“ otevírá basket.html: vlastní zadání do 20 položek, 30 dodavatelů, cena/DPH/množství/termín/záruka po řádcích, doprava právě jednou. Částečné, duplicitní a neznámé řádky brání doporučení; dělení nákupu mezi dodavatele se neoptimalizuje. Lidská kontrola každé položky a dopravy je povinná. CZK. Jednořádkové poptávky a jejich historie zůstávají samostatné.
@@ -48,3 +57,6 @@ Compare fictional Czech supplier quotes for ten office monitors. Requirements: 1
 
 ## Status
 Implemented and verified locally: 12 tests passed, browser desktop/mobile review, JSON/CSV/Markdown download checks, one earlier real API smoke test, security scan and subsequent endpoint fixes. The interface includes an expandable note about technologies, the OpenAI API and human review. README and docs/QA.md contain user-facing details. The repository is published on GitHub.
+
+
+</details>
