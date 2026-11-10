@@ -68,3 +68,7 @@ Doslovný úryvek z nabídky potvrzuje jen výskyt textu, nikoli správnost výz
 ## Načtení JSON, 31. 10. 2026
 
 Automatický test ověřil, že import nepřebírá podvržené doporučení, součet ani příznak lidského schválení. V prohlížeči prošel export ukázky, její opětovné načtení a stav k ověření. Mobilní viewport 390 px neměl vodorovné přetečení.
+
+### Doplnění OL-3b
+
+Browser QA ověřuje tlačítko zdrojového úryvku: odpovídající text se skutečně zvýrazní v původním podkladu, zachová označení Strana 2 a dostane fokus pro klávesnici. Vložení pole v této zkoušce je připravená fixture pro UI, nikoli výsledek živé AI. Samostatně je již ověřen skutečný dvoustránkový PDF import.
