@@ -32,7 +32,7 @@ HTML/CSS, JavaScript ES modules, Node.js 24 HTTP server, IndexedDB, vestavěný 
 
 PDF čte samostatný **Python 3.13+ / pypdf 6.21.4** proces bez proměnných OPENAI_*. Limit 15 sekund, 2 MB, 50 stran, omezené dekódování a nejvýše 8 000 znaků výstupu bez tichého zkrácení. Zachovávají se strany; originální binární soubor se neukládá. Sken vyžaduje OCR, šifrované PDF se odmítá. Nečte webové URL. Import PDF sám nevolá AI; uživatel ji spustí zvlášť.
 
-Klíč čte pouze místní server z prostředí nebo ignorovaného .env.local podle .env.example. **Nikdy nepatří na GitHub ani do prohlížeče.** K AI se odešle vložený text, store:false. Limit dvě souběžné extrakce a 20 volání za 24 hodin běžícího procesu; restart procesový limit resetuje. PDF má vlastní dva sloty. Kontrola Host/Origin, omezená těla, CSP a statické soubory pouze z web/. Bez autentizace: nevystavovat tento server veřejně s klíčem nebo skutečnými nabídkami.
+Klíč čte pouze místní server z prostředí nebo ignorovaného .env.local podle .env.example. **Nikdy nepatří na GitHub ani do prohlížeče.** K AI se odešle vložený text, store:false. Limit dvě souběžné extrakce a 20 volání za 24 hodin běžícího procesu; restart procesový limit resetuje. PDF má vlastní dva sloty. Kontrola Host/Origin, omezená těla (50 000 bajtů pro text do 8 000 znaků), CSP a statické soubory pouze z web/. Bez autentizace: nevystavovat tento server veřejně s klíčem nebo skutečnými nabídkami.
 
 ## Spuštění a ověření
 
@@ -53,7 +53,7 @@ pnpm check
 pnpm qa
 ```
 
-33 automatických testů a obě browser sady: skutečné PDF, zvýraznění, místní historie a transakční konflikt, pravidla košíku, zrušení kontroly po importu/obnově, pozdní odpovědi, exporty a desktop/mobil. CI bez živých AI volání prošlo pro [d1ecd8b](https://github.com/OmegaCatt/offerlens/actions/runs/42729981429). Detaily a benchmark místní historie: [QA](docs/QA.md).
+34 automatických testů a obě browser sady: skutečné PDF, zvýraznění, místní historie a transakční konflikt, pravidla košíku, zrušení kontroly po importu/obnově, pozdní odpovědi, exporty a desktop/mobil. CI bez živých AI volání prošlo pro [d1ecd8b](https://github.com/OmegaCatt/offerlens/actions/runs/42729981429). Detaily a benchmark místní historie: [QA](docs/QA.md).
 
 [Evaluace](evaluation/README.md): 12 obtížných fiktivních nabídek a 74 očekávaných polí. Skutečné běhy 71/74 a 73/74, původní reporty zachované, nalezené záměny cen mají regresní opravy. Dodatečná oprava po druhém běhu byla ověřena offline; není vydávaná za nové živé měření. Nejde o obecnou přesnost AI.
 
@@ -67,4 +67,4 @@ OfferLens compares fictional supplier quotes with optional **single-product** Op
 
 A separate multi-item basket supports explicit request-line IDs, per-line quantities/prices/terms, partial-supply blocking and shipping exactly once per supplier. Basket lines are entered/reviewed manually; no multi-line AI extraction or split-supplier optimization. CZK only.
 
-Each workspace has separate bounded IndexedDB history with atomic optimistic conflict checks. Imported/restored reviews never authorize recommendations; JSON transfers current state, not the full archive. No authenticated approvals or shared database. Keys remain server-side. Run node server.mjs; PDF requires requirements.txt. 33 tests and two browser suites pass; two preserved live extraction runs score 71/74 and 73/74 expected fields on a small curated set, not general accuracy. Company adoption needs access controls, privacy approval, durable limits and a target-specific procurement process.
+Each workspace has separate bounded IndexedDB history with atomic optimistic conflict checks. Imported/restored reviews never authorize recommendations; JSON transfers current state, not the full archive. No authenticated approvals or shared database. Keys remain server-side. Run node server.mjs; PDF requires requirements.txt. 34 tests and two browser suites pass; two preserved live extraction runs score 71/74 and 73/74 expected fields on a small curated set, not general accuracy. Company adoption needs access controls, privacy approval, durable limits and a target-specific procurement process.

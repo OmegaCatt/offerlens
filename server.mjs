@@ -17,7 +17,7 @@ export async function readLocalKey() {
   } catch { return ''; }
 }
 function json(res, code, body) { res.writeHead(code, { ...headers, 'content-type':'application/json; charset=utf-8' }); res.end(JSON.stringify(body)); }
-async function bodyText(req,limit=12000) {
+async function bodyText(req,limit=50000) {
   const timeout = setTimeout(() => req.destroy(new Error('Překročen čas pro odeslání požadavku.')), 10000);
   let chunks = [], bytes = 0;
   try {

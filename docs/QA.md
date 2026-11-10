@@ -72,3 +72,7 @@ Automatický test ověřil, že import nepřebírá podvržené doporučení, so
 ### Doplnění OL-3b
 
 Browser QA ověřuje tlačítko zdrojového úryvku: odpovídající text se skutečně zvýrazní v původním podkladu, zachová označení Strana 2 a dostane fokus pro klávesnici. Vložení pole v této zkoušce je připravená fixture pro UI, nikoli výsledek živé AI. Samostatně je již ověřen skutečný dvoustránkový PDF import.
+
+## OL-6: český text a limit těla
+
+Skutečný HTTP regresní test s 8 000 znaky „ě“ prošel do mockovaného provideru, 8 001 znaků bylo odmítnuto a nevydalo další AI volání. JSON tělo má ohraničení 50 000 bajtů, samostatný znakový limit 8 000 zůstává. Celková sada nyní 34 Node testů. Mock netestuje živou AI, ověřuje přijímací kontrakt serveru.
