@@ -30,5 +30,7 @@ jobs:
         if: always()
         with:
           name: offerlens-history-qa
-          path: docs/screenshots/*.png
+          path: |
+            docs/screenshots/*.png
+            docs/guide*.png
           retention-days: 7

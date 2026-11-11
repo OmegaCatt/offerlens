@@ -1,5 +1,12 @@
 # OfferLens
 
+## Orientace v aplikaci (11. 11. 2026)
+
+Při první návštěvě se otevře stručný návod. Po zavření si aplikace v tomto prohlížeči zapamatuje potvrzení; změna nemá vliv na obchodní data. V hlavičce lze kdykoli otevřít **Jak aplikaci používat** a **Technické informace**. Oba obsahy odkazují na úplný README zde na GitHubu. Pokud úložiště prohlížeče není dostupné, návod lze zavřít a aplikace dál funguje.
+
+Nový vzhled nákupního pracovního listu: větší písmo, stálé barvy, ploché tabulky a vlastní typografie. Hlavní porovnání, historie i košík nemají hover efekty, barevné přechody ani animace.
+
+
 **Porovnání dodavatelských nabídek s doloženými údaji, kontrolou člověka a přesným výpočtem.** Jedna položka s volitelnou AI extrakcí nebo celá vícepoložková poptávka s ruční kontrolou každého řádku.
 
 [![Verify OfferLens](https://github.com/OmegaCatt/offerlens/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OmegaCatt/offerlens/actions/workflows/ci.yml) · [Zaznamenaná ukázka](https://omegacatt.github.io/datadesk/portfolio/) (statický snímek, nikoli živý server)
@@ -62,6 +69,9 @@ pnpm qa
 Začít schválenými anonymizovanými nabídkami a vlastníkem nákupních pravidel. Ověřit režim DPH a zaokrouhlení konkrétního procesu, pravidla souhlasů s externí AI a reprezentativní extrakční sadu. Pro sdílenou práci přidat účty, oprávnění, serverovou historii, retenci, zálohy, trvalé limity a skutečný schvalovací proces. Dodavatelské/nákupní konektory, OCR a další měny jsou další rozšíření, nikoli implementovaná integrace.
 
 ## English
+
+First-time visitors see a keyboard-accessible guide; persistent header buttons reopen usage and technical information with a link to this README. Acknowledgement is browser-local and does not store business records. A redesigned procurement worksheet uses larger type, flat tables and consistent colors across comparison, history and basket. No hover effects, gradients or animated transitions.
+
 
 OfferLens compares fictional supplier quotes with optional **single-product** OpenAI extraction, verbatim evidence, clickable source highlighting and mandatory human verification. Deterministic integer/BigInt calculations handle VAT and shipping. Text PDFs are read by a bounded local Python/pypdf worker, with page labels; no OCR or URL scraping.
 

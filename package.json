@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node server.mjs",
     "test": "node --test",
-    "check": "node --check server.mjs && node --check web/app.mjs && node --check web/history-model.mjs && node --check web/history-store.mjs && node --check web/basket-ui.mjs && node --check web/basket-model.mjs && node --check pdf.mjs",
+    "check": "node --check server.mjs && node --check web/app.mjs && node --check web/history-model.mjs && node --check web/history-store.mjs && node --check web/basket-ui.mjs && node --check web/basket-model.mjs && node --check pdf.mjs && node --check web/guide.js && node --check scripts/guide-qa.mjs",
     "qa": "node scripts/qa.mjs && node scripts/qa-basket.mjs",
     "evaluate": "node evaluation/run.mjs"
   },

@@ -1,3 +1,4 @@
+import {verifyGuide,verifyGuideLinks,dismissGuide} from './guide-qa.mjs';
 import assert from 'node:assert/strict';
 import {mkdir,readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
@@ -31,7 +32,7 @@ try{
   }
   const record=(page,title)=>page.locator('.saved-case').filter({has:page.locator('strong').filter({hasText:title})});
   async function openLatest(page,title){await page.locator('#case-history').click();await record(page,title).getByRole('button',{name:'Otevřít poslední',exact:true}).click();await page.locator('#history-dialog').waitFor({state:'hidden'});}
-  await p.goto(base);await p.locator('#case-status').waitFor();assert.match(await p.locator('.recommendation h2').innerText(),/Aurora/);
+  await p.goto(base);await verifyGuide(p,{});assert.equal(await p.evaluate(()=>[...document.styleSheets].some(sheet=>[...sheet.cssRules].some(rule=>rule.cssText.includes(':hover')||/linear-gradient|radial-gradient/.test(rule.cssText)))),false);const primary=p.locator('#add-button');const before=await primary.evaluate(e=>({color:getComputedStyle(e).backgroundColor,transform:getComputedStyle(e).transform,transition:getComputedStyle(e).transitionDuration}));await primary.hover();assert.deepEqual(await primary.evaluate(e=>({color:getComputedStyle(e).backgroundColor,transform:getComputedStyle(e).transform,transition:getComputedStyle(e).transitionDuration})),before);assert.equal(before.transition,'0s');await p.locator('#case-status').waitFor();assert.match(await p.locator('.recommendation h2').innerText(),/Aurora/);
   await save(p,'Monitory – hlavní případ','Výchozí nabídky k porovnání');assert.match(await p.locator('#case-status').innerText(),/v1/);
   await edit(p,30);assert.match(await p.locator('#case-status').innerText(),/neuložené/);
   await save(p,'Monitory – hlavní případ','Dodavatelé mohou dodat do 30 dnů');assert.match(await p.locator('#case-status').innerText(),/v2/);
@@ -39,7 +40,7 @@ try{
   await p.locator('#case-history').click();await record(p,'Monitory – hlavní případ').getByRole('button',{name:'Historie verzí',exact:true}).click();
   const versions=p.locator('.revision-details');await versions.first().waitFor();await versions.first().locator('summary').click();assert.match(await versions.first().innerText(),/Nejvyšší doba dodání/);assert.match(await versions.first().innerText(),/14 → 30/);
   await versions.last().locator('summary').click();await versions.last().getByRole('button',{name:'Otevřít tuto verzi'}).click();await p.locator('#history-dialog').waitFor({state:'hidden'});assert.match(await p.locator('#case-status').innerText(),/otevřena v1 \/ poslední v2/);
-  const q=await context.newPage();await q.goto(base);await openLatest(q,'Monitory – hlavní případ');
+  const q=await context.newPage();await q.goto(base);await dismissGuide(q);await openLatest(q,'Monitory – hlavní případ');
   await edit(p,40);await edit(q,45);await save(p,'Monitory – hlavní případ','První karta mění termín na 40');
   await save(q,'Monitory – hlavní případ','Druhá karta mění termín na 45',{conflict:true});
   await saveDialog(q).getByRole('button',{name:'Zrušit',exact:true}).click();
@@ -73,12 +74,12 @@ try{
   await p.locator('#reset-button').click();await p.evaluate(()=>window.__releaseFile());await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));assert.ok(!(await p.locator('#content').innerText()).includes('Opožděný starý případ'));assert.equal(await p.locator('.view-button').count(),3);
   const reportDownload=p.waitForEvent('download');await p.locator('#export-button').click();const report=JSON.parse(await readFile(await(await reportDownload).path(),'utf8'));assert.equal(report.recommendedId,'aurora');
   const downloaded=p.waitForEvent('download');await p.getByRole('button',{name:'Stáhnout případ JSON',exact:true}).click();const file=JSON.parse(await readFile(await(await downloaded).path(),'utf8'));assert.equal(file.offers.length,3);
-  await mkdir(path.join(root,'docs','screenshots'),{recursive:true});await p.screenshot({path:path.join(root,'docs','screenshots','overview.png')});
+  await mkdir(path.join(root,'docs','screenshots'),{recursive:true});await p.evaluate(()=>scrollTo(0,0));await p.screenshot({path:path.join(root,'docs','screenshots','overview.png')});
   await p.locator('#case-history').click();await record(p,'Monitory – hlavní případ').getByRole('button',{name:'Historie verzí',exact:true}).click();await p.locator('.revision-details').first().locator('summary').click();await p.screenshot({path:path.join(root,'docs','screenshots','history.png')});
   await p.setViewportSize({width:390,height:844});assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await p.screenshot({path:path.join(root,'docs','screenshots','history-mobile.png')});
   await p.locator('#history-dialog .close').click();assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   // Storage contract against actual IndexedDB, in a separate empty browser profile.
-  const isolated=await browser.newContext(),storagePage=await isolated.newPage();await storagePage.goto(base);
+  const isolated=await browser.newContext(),storagePage=await isolated.newPage();await storagePage.goto(base);await dismissGuide(storagePage);
   const storageProof=await storagePage.evaluate(async()=>{
     const {prepareSnapshot}=await import('/history-model.mjs');
     const {saveCase,listCases,removeCase}=await import('/history-store.mjs');
