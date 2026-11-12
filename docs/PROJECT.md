@@ -1,3 +1,7 @@
+# Snadné vyzkoušení - 12. 11. 2026
+
+Základní Windows návod je na začátku README; řešení potíží a volitelné předpoklady v docs/SPUSTENI.md. Netechnický návštěvník může začít existující veřejnou ukázkou. Ověření čisté kopie a hranice testu jsou v docs/QA.md. Jádro aplikace se touto dokumentační úpravou nemění.
+
 # UX-1 až UX-7 – 11. 11. 2026
 
 Nový vzhled nákupního pracovního listu: větší písmo, stálé barvy, ploché tabulky a vlastní typografie. Hlavní porovnání, historie i košík nemají hover efekty, barevné přechody ani animace.
