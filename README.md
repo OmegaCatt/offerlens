@@ -6,11 +6,11 @@ Pomůže porovnat dodavatelské nabídky podle ceny, dopravy a dalších podmín
 
 ### Video ukázka
 
-**[Přehrát video — 0:51, bez zvuku](https://raw.githubusercontent.com/OmegaCatt/offerlens/main/docs/videos/offerlens.mp4)** · [Co ukázka předvádí](docs/VIDEO.md)
+**[Stáhnout video MP4 — 0:51, bez zvuku](https://raw.githubusercontent.com/OmegaCatt/offerlens/main/docs/videos/offerlens.mp4)** · [Co ukázka předvádí](docs/VIDEO.md)
 
-<a href="https://raw.githubusercontent.com/OmegaCatt/offerlens/main/docs/videos/offerlens.mp4"><img src="docs/videos/offerlens-poster.png" alt="Přehrát video aplikace OfferLens" width="720"></a>
+<a href="https://raw.githubusercontent.com/OmegaCatt/offerlens/main/docs/videos/offerlens.mp4"><img src="docs/videos/offerlens-poster.png" alt="Stáhnout video aplikace OfferLens" width="720"></a>
 
-Skutečný průchod aplikací s českými titulky a viditelnou myší. Klikněte na náhled nebo odkaz nad ním; není potřeba nic instalovat. [Soubor MP4 na GitHubu](https://github.com/OmegaCatt/offerlens/blob/main/docs/videos/offerlens.mp4).
+Skutečný průchod aplikací s českými titulky a viditelnou myší. Kliknutím na náhled stáhnete video MP4; po stažení jej otevřete v běžném přehrávači videa. Samotnou aplikaci není potřeba instalovat. [Soubor MP4 na GitHubu](https://github.com/OmegaCatt/offerlens/blob/main/docs/videos/offerlens.mp4).
 
 **[Prohlédnout veřejnou ukázku](https://omegacatt.github.io/datadesk/portfolio/#offerlens)** - bez instalace a přihlášení.
 
