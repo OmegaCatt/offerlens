@@ -1,0 +1,205 @@
+{
+  "recordedAt": "2026-11-16T15:03:32.529Z",
+  "sourceCommit": "047798e9e724ae864dc0f19766aadf60e24f9d40",
+  "scriptSha256": "25723b8a47899b43d92ccd7faa6872bcf2a8edce5c9f53134ef0243f70470c1e",
+  "helperSha256": "965b860d9ec7fb3d2a26c516544bc6e5d8cc331be3bd5de702eaed7b93dc1396",
+  "videoSha256": "e564d45617734ffe72192f432e6670d95e80b4d5a787ac13c1a935ad7fb075c4",
+  "mode": "actual isolated local HTTP/browser; fictional data; AI disabled; silent Full HD app-only recording",
+  "presentation": {
+    "width": 1920,
+    "height": 1080,
+    "captionFontPixels": 42,
+    "burnedInCaptions": true,
+    "visiblePointer": true,
+    "actualClickMarkers": true,
+    "audio": false,
+    "trimStartSeconds": 0.6,
+    "renderedOverlay": {
+      "topLayer": true,
+      "pointer": true,
+      "fontSize": "42px",
+      "pointerSvg": {
+        "width": 36,
+        "height": 42,
+        "fill": "rgb(255, 255, 255)",
+        "stroke": "rgb(17, 24, 32)"
+      },
+      "clickMarker": {
+        "width": 68,
+        "height": 68,
+        "border": 4,
+        "color": "rgb(216, 136, 24)"
+      }
+    }
+  },
+  "verified": {
+    "preparedOffers": 3,
+    "initialRecommendation": "Aurora",
+    "changedLeadDays": 30,
+    "savedVersion": 1,
+    "liveAiCalls": 0,
+    "jsErrors": []
+  },
+  "captions": [
+    {
+      "start": 1.136,
+      "text": "OfferLens: porovnání dodavatelských nabídek.",
+      "end": 4.665
+    },
+    {
+      "start": 4.665,
+      "text": "Tři připravené nabídky na deset monitorů. Cena zahrnuje dopravu a DPH.",
+      "end": 8.682
+    },
+    {
+      "start": 8.682,
+      "text": "Otevřeme podklady dodavatele Aurora Office.",
+      "end": 12.045
+    },
+    {
+      "start": 12.045,
+      "text": "V detailu lze porovnat vyplněné údaje s původním textem nabídky.",
+      "end": 18.065
+    },
+    {
+      "start": 18.065,
+      "text": "Upravíme poptávku: prodloužíme dobu dodání na 30 dnů.",
+      "end": 26.359
+    },
+    {
+      "start": 26.359,
+      "text": "Při termínu 30 dnů vyhovuje i levnější nabídka Nova Display.",
+      "end": 30.369
+    },
+    {
+      "start": 30.369,
+      "text": "Poptávku uložíme do místní historie.",
+      "end": 38.419
+    },
+    {
+      "start": 38.419,
+      "text": "Uložena první verze. Otevřeme místní historii.",
+      "end": 41.715
+    },
+    {
+      "start": 41.715,
+      "text": "Uložená poptávka je v místní historii tohoto prohlížeče.",
+      "end": 47.912
+    },
+    {
+      "start": 47.912,
+      "text": "Podrobný návod ke spuštění najdete v README projektu.",
+      "end": 51.927
+    }
+  ],
+  "actions": [
+    {
+      "kind": "click",
+      "target": "Zobrazit detail →",
+      "x": 1407.53125,
+      "y": 719.5625,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 11.186
+    },
+    {
+      "kind": "click",
+      "target": "Zvýraznit zdroj: Dodavatel",
+      "x": 1003.0390625,
+      "y": 404.375,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 13.239
+    },
+    {
+      "kind": "click",
+      "target": "Zavřít",
+      "x": 1397,
+      "y": 58,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 19.27
+    },
+    {
+      "kind": "click",
+      "target": "Upravit poptávku",
+      "x": 409.4296875,
+      "y": 230.78125,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 21.289
+    },
+    {
+      "kind": "fill",
+      "target": "",
+      "x": 960,
+      "y": 592.0078125,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 23.358
+    },
+    {
+      "kind": "click",
+      "target": "Uložit zadání",
+      "x": 709.828125,
+      "y": 789.5703125,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 25.361
+    },
+    {
+      "kind": "click",
+      "target": "case-save",
+      "x": 1229.046875,
+      "y": 303.0703125,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 31.579
+    },
+    {
+      "kind": "fill",
+      "target": "save-title",
+      "x": 960,
+      "y": 514.4921875,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 33.649
+    },
+    {
+      "kind": "fill",
+      "target": "save-message",
+      "x": 960,
+      "y": 616.0703125,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 35.662
+    },
+    {
+      "kind": "click",
+      "target": "Uložit verzi",
+      "x": 1201.046875,
+      "y": 737.6640625,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 37.618
+    },
+    {
+      "kind": "click",
+      "target": "case-history",
+      "x": 1490.390625,
+      "y": 303.0703125,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 40.897
+    },
+    {
+      "kind": "click",
+      "target": "Zavřít",
+      "x": 1396,
+      "y": 433.421875,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 46.946
+    }
+  ]
+}
