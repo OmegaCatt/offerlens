@@ -12,9 +12,7 @@ Pomůže porovnat dodavatelské nabídky podle ceny, dopravy a dalších podmín
 
 Skutečný průchod aplikací s českými titulky a viditelnou myší. Kliknutím na náhled stáhnete video MP4; po stažení jej otevřete v běžném přehrávači videa. Samotnou aplikaci není potřeba instalovat. [Soubor MP4 na GitHubu](https://github.com/OmegaCatt/offerlens/blob/main/docs/videos/offerlens.mp4).
 
-**[Prohlédnout veřejnou ukázku](https://omegacatt.github.io/datadesk/portfolio/#offerlens)** - bez instalace a přihlášení.
-
-Veřejný odkaz ukazuje uložený snímek výsledků. Plnou aplikaci si spustíte na počítači podle návodu níže.
+Plnou aplikaci si můžete vyzkoušet po místním spuštění podle návodu níže; online živá verze není dostupná.
 
 ## Spuštění krok za krokem (Windows)
 
@@ -52,7 +50,7 @@ Nový vzhled nákupního pracovního listu: větší písmo, stálé barvy, ploc
 
 **Porovnání dodavatelských nabídek s doloženými údaji, kontrolou člověka a přesným výpočtem.** Jedna položka s volitelnou AI extrakcí nebo celá vícepoložková poptávka s ruční kontrolou každého řádku.
 
-[![Verify OfferLens](https://github.com/OmegaCatt/offerlens/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OmegaCatt/offerlens/actions/workflows/ci.yml) · [Zaznamenaná ukázka](https://omegacatt.github.io/datadesk/portfolio/) (statický snímek, nikoli živý server)
+[![Verify OfferLens](https://github.com/OmegaCatt/offerlens/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/OmegaCatt/offerlens/actions/workflows/ci.yml)
 
 ![Porovnání nabídek](docs/screenshots/overview.png)
 
